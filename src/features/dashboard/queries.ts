@@ -1,0 +1,182 @@
+import { createClient } from "@/lib/supabase/server";
+import { addDays, startOfDay, format, isSameDay } from "date-fns";
+
+//get the dashboard stats for the user
+export async function getDashboardStats() {
+    const supabase = await createClient();
+    const { data: { user }, } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+    
+    const { data: assignments_data, error: assignments_error } = await supabase
+        .from('assignments')
+        .select('completed, courses!inner(user_id)')
+        .eq('courses.user_id', user.id);
+    
+    const { data: courses_data, error: courses_error } = await supabase
+        .from('courses')
+        .select('units')
+        .eq('user_id', user.id);
+    
+    if (assignments_error || courses_error) throw assignments_error || courses_error;
+    
+    return {
+        totalAssignments: assignments_data.length,
+        completedAssignments: assignments_data.filter((assignment: any) => assignment.completed).length,
+        totalCourses: courses_data.length,
+        totalUnits: courses_data.reduce((acc: number, course: any) => acc + (course.units || 0), 0),
+    };
+}
+
+//get all the courses for the user
+export async function getCourses() {
+    const supabase = await createClient();
+    const { data: { user }, } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+    
+    const { data: courses_data, error: courses_error } = await supabase
+        .from('courses')
+        .select('*, assignments(completed, due_date)')
+        .eq('user_id', user.id);
+    
+    if (courses_error) throw courses_error;
+    
+    const now = new Date();
+    const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    
+    return courses_data.map((course: any) => {
+        const incomplete = (course.assignments ?? []).filter((a: any) => !a.completed);
+        return {
+            id: course.id,
+            name: course.name,
+            number: course.number,
+            assignmentsLeft: incomplete.length,
+            hasDueSoon: incomplete.some(
+                (a: any) => new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
+            ),
+        };
+    });
+}
+
+//get the next 10 upcoming assignments for the user
+export async function getUpcomingAssignments() {
+    const supabase = await createClient();
+    const { data: { user }, } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+    
+    //get current time in UTC
+    const nowUTC = new Date();
+    
+    //get next 10 upcoming assignments
+    const { data: assignments_data, error: assignments_error } = await supabase
+        .from('assignments')
+        .select('id, name, due_date, courses!inner(user_id, name, number)')
+        .eq('courses.user_id', user.id)
+        .eq('completed', false)
+        .gte('due_date', nowUTC.toISOString())
+        .order('due_date', { ascending: true })
+        .limit(10);
+    
+    if (assignments_error) throw assignments_error;
+    
+    return assignments_data.map((assignment: any) => ({
+        id: assignment.id,
+        name: assignment.name,
+        dueDate: assignment.due_date,
+        courseName: assignment.courses.name,
+        courseNumber: assignment.courses.number,
+    }));
+}
+
+//get assignments due in the next 24 hours
+export async function getTodayAssignments() {
+    const supabase = await createClient();
+    const { data: { user }, } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+    
+    //get range for the next 24 hours in UTC
+    const nowUTC = new Date();
+    const next72HoursUTC = addDays(nowUTC, 4);
+    
+    //get assignments due in the next 24 hours
+    const { data: assignments_data, error: assignments_error } = await supabase
+        .from('assignments')
+        .select('id, name, due_date, courses!inner(user_id, name, number)')
+        .eq('courses.user_id', user.id)
+        .eq('completed', false)
+        .gte('due_date', nowUTC.toISOString())
+        .lt('due_date', next72HoursUTC.toISOString())
+        .order('due_date', { ascending: true });
+    
+    if (assignments_error) throw assignments_error;
+    
+    return assignments_data.map((assignment: any) => ({
+        id: assignment.id,
+        name: assignment.name,
+        dueDate: assignment.due_date,
+        courseName: assignment.courses.name,
+        courseNumber: assignment.courses.number,
+    }));
+}
+
+/** Assignments per day for the next 14 days (today onwards). Returns labels and counts. */
+export async function getAssignmentsPerDayNextTwoWeeks(): Promise<{
+    labels: string[];
+    counts: number[];
+}> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+
+    const now = new Date();
+    const start = startOfDay(now);
+    const end = addDays(start, 14);
+
+    const { data: assignments_data, error } = await supabase
+        .from("assignments")
+        .select("due_date, courses!inner(user_id)")
+        .eq("courses.user_id", user.id)
+        .eq("completed", false)
+        .gte("due_date", start.toISOString())
+        .lt("due_date", end.toISOString());
+
+    if (error) throw error;
+
+    const days = Array.from({ length: 14 }, (_, i) => addDays(start, i));
+    const labels = days.map((d) => {
+        if (isSameDay(d, now)) return "Today";
+        return format(d, "EEE d");
+    });
+    const counts = days.map(() => 0);
+
+    for (const row of assignments_data ?? []) {
+        const due = new Date(row.due_date);
+        const dayIndex = days.findIndex((d) => isSameDay(d, due));
+        if (dayIndex >= 0) counts[dayIndex] += 1;
+    }
+
+    return { labels, counts };
+}
+
+/** Total assignment progress across all courses (completed vs remaining). */
+export async function getTotalProgressData(): Promise<
+    { category: string; amount: number; fill?: string }[]
+> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+
+    const { data, error } = await supabase
+        .from("assignments")
+        .select("completed, courses!inner(user_id)")
+        .eq("courses.user_id", user.id);
+
+    if (error) throw error;
+
+    const completedCount = (data ?? []).filter((a: { completed: boolean }) => a.completed).length;
+    const remainingCount = (data ?? []).length - completedCount;
+
+    return [
+        { category: "completed", amount: completedCount, fill: "#22c55e" },
+        { category: "remaining", amount: remainingCount, fill: "#2c2c2c" },
+    ];
+}
