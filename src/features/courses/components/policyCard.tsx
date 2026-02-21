@@ -11,7 +11,7 @@ export default function PolicyCard({
 }: PolicyCardProps) {
   return (
     <div className="flex flex-col h-full min-h-0">
-      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-card-foreground/10 shadow-sm bg-card rounded-lg overflow-hidden">
+      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-card-foreground/10 shadow-sm bg-card rounded-xl overflow-hidden">
         <h3 className="text-2xl mb-4 font-semibold flex-shrink-0">
           Drop &amp; Extension Policy
         </h3>

@@ -57,3 +57,35 @@ export async function createCategory(courseId: string, formData: FormData) {
     revalidatePath(`/courses/${courseId}`);
     redirect(`/courses/${courseId}`);
 }
+
+//update category action
+export async function updateCategory(categoryId: string, formData: FormData) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not found");
+
+    const name = String(formData.get("name") ?? "").trim();
+    const weight_str = String(formData.get("weight") ?? "").trim();
+    const extensions_allowed = parseInt(String(formData.get("extensions_allowed") ?? "0")) || 0;
+    const drops_allowed = parseInt(String(formData.get("drops_allowed") ?? "0")) || 0;
+
+    if (!name) throw new Error("Category name is required");
+    const weight = parseFloat(weight_str);
+    if (!Number.isFinite(weight) || weight < 0 || weight > 100) {
+        throw new Error("Weight must be 0–100");
+    }
+
+    const { error } = await supabase
+        .from("categories")
+        .update({
+            name,
+            weight,
+            extensions_allowed,
+            drops_allowed,
+        })
+        .eq("id", categoryId);
+
+    if (error) throw error;
+
+    revalidatePath('/courses/[courseId]');
+}

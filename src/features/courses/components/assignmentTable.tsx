@@ -16,18 +16,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getAssignmentsByCourse } from "../queries";
 import { MoreHorizontalIcon } from "lucide-react"
 import { markAssignmentComplete, deleteAssignment, markAssignmentIncomplete } from "../../assignments/actions";
 import { DueDateCell, DueTimeCell } from "@/components/local-date";
 import Link from "next/link";
 
 interface TableCourseAssignmentsProps {
-  courseId: string;
+  assignments: {
+    id: string;
+    name: string;
+    dueDate: string;
+    completed: boolean;
+  }[];
 }
 
-export default async function TableCourseAssignments({ courseId }: TableCourseAssignmentsProps) {
-  const assignments = await getAssignmentsByCourse(courseId);
+export default function TableCourseAssignments({ assignments }: TableCourseAssignmentsProps) {
   
   return (
     <div className="flex flex-col h-full min-h-0">   

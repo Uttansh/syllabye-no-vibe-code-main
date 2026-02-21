@@ -16,16 +16,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getCategoriesByCourse } from "../queries";
 import { MoreHorizontalIcon } from "lucide-react"
 import { deleteCategory } from "../../categories/actions";
+import Link from "next/link";
 
 interface TableCourseCategoriesProps {
-  courseId: string;
+  categories: {
+    id: string;
+    name: string;
+    weight: number;
+    isExam: boolean;
+    isMandatory: boolean;
+    dropsAllowed: number;
+    dropsUsed: number;
+    extensionsAllowed: number;
+    extensionsUsed: number;
+  }[];
 }
 
-export default async function TableCourseCategories({ courseId }: TableCourseCategoriesProps) {
-  const categories = await getCategoriesByCourse(courseId);
+export default function TableCourseCategories({ categories }: TableCourseCategoriesProps) {
   
   return (
     <div className="flex flex-col h-full min-h-0">   
@@ -99,7 +108,9 @@ export default async function TableCourseCategories({ courseId }: TableCourseCat
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                          <Link href={`/categories/${category.id}/edit`}>
+                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                            </Link>
                             <DropdownMenuSeparator />
                             <form action={deleteCategoryWithId}>
                               <button type="submit" className="w-full">

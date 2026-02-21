@@ -1,7 +1,9 @@
-import { getTotalProgressData } from "../queries";
 import PieDonutClient from "@/features/courses/components/progressChartClient";
 
-export default async function DashboardProgressChart() {
-  const data = await getTotalProgressData();
+interface DashboardProgressChartProps {
+  data: { category: string; amount: number; fill?: string }[];
+}
+
+export default function DashboardProgressChart({ data }: DashboardProgressChartProps) {
   return <PieDonutClient data={data} />;
 }

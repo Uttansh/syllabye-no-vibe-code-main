@@ -1,9 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { getDashboardStats } from "../queries";
 import { BookOpen, Calculator, Clipboard, ClipboardCheck } from "lucide-react";
 
-export default async function Stats() {
-const {totalAssignments, completedAssignments, totalCourses, totalUnits} = await getDashboardStats();
+interface StatsProps {
+    stats: {
+        totalAssignments: number;
+        completedAssignments: number;
+        totalCourses: number;
+        totalUnits: number;
+    };
+}
+
+export default function Stats({ stats }: StatsProps) {
+const { totalAssignments, completedAssignments, totalCourses, totalUnits } = stats;
 const data = [
     {
         name: "Total Courses",
@@ -29,7 +37,7 @@ const data = [
     ];
   return (
     <div className="flex items-center justify-center w-full">
-      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 w-full">
+      <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 w-full">
         {data.map((item) => (
           <Card key={item.name} className="p-6 py-4">
             <CardContent className="p-0">
@@ -41,16 +49,6 @@ const data = [
                 <span className="text-sm font-medium text-muted-foreground">
                   {item.icon}
                 </span>
-                {/* <span
-                  className={cn(
-                    item.changeType === "positive"
-                      ? "text-green-800 dark:text-green-400"
-                      : "text-red-800 dark:text-red-400",
-                    "text-sm font-medium"
-                  )}
-                >
-                  {item.change}
-                </span> */}
               </dd>
               <dt className="text-sm font-medium text-muted-foreground">
                 {item.name}

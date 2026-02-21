@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
@@ -16,15 +15,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getTodayAssignments } from "../queries";
 import { MoreHorizontalIcon } from "lucide-react"
 import { markAssignmentComplete, deleteAssignment } from "../../assignments/actions";
 import { DueDateCell, DueTimeCell } from "@/components/local-date";
 import Link from "next/link";
 
-export default async function TableUpcomingAssignments() {
-  const assignments = await getTodayAssignments();
-  
+interface Assignment {
+  id: string;
+  name: string;
+  dueDate: string;
+  courseName: string;
+  courseNumber: string;
+}
+
+export default function TableUpcomingAssignments({ assignments }: { assignments: Assignment[] }) {
   return (
     <div className="flex flex-col h-full min-h-0">   
       <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden">

@@ -1,9 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { getCourseStats } from "../queries";
 import { Book, BookOpen, Check, GraduationCap } from "lucide-react";
 
-export default async function CourseStats({courseId}: {courseId: string}) {
-const {courseName, courseNumber, units, instructors, totalAssignments, completedAssignments} = await getCourseStats(courseId);
+interface CourseStatsProps {
+  stats: {
+    courseNumber: string;
+    units: number;
+    totalAssignments: number;
+    completedAssignments: number;
+  };
+}
+
+export default function CourseStats({ stats }: CourseStatsProps) {
+const { courseNumber, units, totalAssignments, completedAssignments } = stats;
 const data = [
     {
         name: "Course Number",
@@ -29,7 +37,7 @@ const data = [
     ];
   return (
     <div className="flex items-center justify-center w-full">
-      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 w-full">
+      <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 w-full">
         {data.map((item) => (
           <Card key={item.name} className="p-6 py-4">
             <CardContent className="p-0">

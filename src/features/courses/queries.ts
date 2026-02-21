@@ -118,3 +118,74 @@ export async function getProgressData(courseId: string) {
         { category: 'remaining', amount: remainingCount, fill: '#2c2c2c' },
     ]
 };
+
+export async function getCourseDashboardData(courseId: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const [courseResult, assignmentsResult, categoriesResult] = await Promise.all([
+        supabase
+            .from('courses')
+            .select('*')
+            .eq('id', courseId)
+            .eq('user_id', user.id)
+            .single(),
+        supabase
+            .from('assignments')
+            .select('id, name, due_date, completed')
+            .eq('course_id', courseId)
+            .order('due_date', { ascending: true }),
+        supabase
+            .from('categories')
+            .select('id, name, weight, is_exam, is_mandatory, drops_allowed, drops_used, extensions_allowed, extensions_used')
+            .eq('course_id', courseId)
+            .order('weight', { ascending: false }),
+    ]);
+
+    if (courseResult.error) throw courseResult.error;
+    if (assignmentsResult.error) throw assignmentsResult.error;
+    if (categoriesResult.error) throw categoriesResult.error;
+
+    const course = courseResult.data;
+    const rawAssignments = assignmentsResult.data;
+
+    const completedCount = rawAssignments.filter((a: any) => a.completed).length;
+
+    const assignments = rawAssignments.map((a: any) => ({
+        id: a.id,
+        name: a.name,
+        dueDate: a.due_date,
+        completed: a.completed,
+    }));
+
+    const categories = categoriesResult.data.map((c: any) => ({
+        id: c.id,
+        name: c.name,
+        weight: c.weight,
+        isExam: c.is_exam,
+        isMandatory: c.is_mandatory,
+        dropsAllowed: c.drops_allowed ?? 0,
+        dropsUsed: c.drops_used ?? 0,
+        extensionsAllowed: c.extensions_allowed ?? 0,
+        extensionsUsed: c.extensions_used ?? 0,
+    }));
+
+    const progressData = [
+        { category: 'completed', amount: completedCount, fill: '#22c55e' },
+        { category: 'remaining', amount: rawAssignments.length - completedCount, fill: '#2c2c2c' },
+    ];
+
+    return {
+        course,
+        assignments,
+        categories,
+        stats: {
+            courseNumber: course.number,
+            units: course.units,
+            totalAssignments: rawAssignments.length,
+            completedAssignments: completedCount,
+        },
+        progressData,
+    };
+}

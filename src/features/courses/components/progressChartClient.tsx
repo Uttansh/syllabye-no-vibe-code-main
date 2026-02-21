@@ -26,7 +26,7 @@ export default function PieDonutClient({
   return (
     <div className="flex flex-col h-full min-h-0">
     
-    <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-white/10 bg-card rounded-lg">
+    <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-white/10 bg-card rounded-xl">
     <div className="mb-2 flex-shrink-0">
       <h3 className="text-2xl mb-2 font-semibold flex-shrink-0">Completion rate</h3>
         <p className="text-sm text-muted-foreground">
@@ -53,7 +53,7 @@ export default function PieDonutClient({
                     value={`${percent}%`}
                     position="center"
                     className="text-3xl font-bold"
-                    fill="#22c55e"
+                    fill="white"
                 />
             </Pie>
           </PieChart>
