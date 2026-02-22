@@ -19,6 +19,7 @@ import {
 import { MoreHorizontalIcon } from "lucide-react"
 import { deleteCategory } from "../../categories/actions";
 import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface TableCourseCategoriesProps {
   categories: {
@@ -39,7 +40,8 @@ export default function TableCourseCategories({ categories }: TableCourseCategor
   return (
     <div className="flex flex-col h-full min-h-0">   
       <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden">
-        <CardContent className="px-0 py-0 m-0 h-full overflow-y-auto">
+        <CardContent className="px-0 py-0 m-0 h-full">
+          <ScrollArea className="h-full">
           <Table>
             <TableHeader className="px-4 sticky top-0 bg-card z-10">
               <TableRow className="h-14">
@@ -130,6 +132,7 @@ export default function TableCourseCategories({ categories }: TableCourseCategor
               )}
             </TableBody>
           </Table>
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

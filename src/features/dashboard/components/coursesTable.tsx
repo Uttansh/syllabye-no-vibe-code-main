@@ -19,7 +19,7 @@ import { MoreHorizontalIcon, TriangleAlert } from "lucide-react"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { deleteCourse } from "../../courses/actions";
 import Link from "next/link";
-
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface Course {
   id: string;
   name: string;
@@ -32,14 +32,15 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
   return (
     <div className="flex flex-col h-full min-h-0">   
       <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden">
-        <CardContent className="px-0 py-0 m-0 h-full overflow-y-auto scrollbar-muted">
-          <Table>
+        <CardContent className="px-0 py-0 m-0 h-full">
+          <ScrollArea className="h-full">
+            <Table>
             <TableHeader className="px-4 sticky top-0 bg-card z-10">
               <TableRow className="h-14">
-                <TableHead className="px-6">Course Name</TableHead>
+                <TableHead className="px-6">Courses</TableHead>
                 <TableHead className="px-6">Course #</TableHead>
                 <TableHead className="px-6">Assignments Left</TableHead>
-                <TableHead className="text-right px-6">Actions</TableHead>
+                <TableHead className="px-6 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -114,6 +115,7 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
               )}
             </TableBody>
           </Table>
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

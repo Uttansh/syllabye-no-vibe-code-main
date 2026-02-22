@@ -53,7 +53,7 @@ export default function PieDonutClient({
                     value={`${percent}%`}
                     position="center"
                     className="text-3xl font-bold"
-                    fill="white"
+                    fill="#22c55e" 
                 />
             </Pie>
           </PieChart>

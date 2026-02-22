@@ -10,46 +10,79 @@ import { LogoutButton } from "@/components/logout-button";
 import { Plus } from "lucide-react";
 
 export default async function DashboardPage() {
-    const { stats, progressData, courses, todayAssignments, chartLabels, chartCounts } = await getDashboardData();
-    return (
-        <div className="h-screen flex flex-col gap-4 p-4 overflow-hidden">
-            {/* Header */}
-            <div className="flex-shrink-0 flex justify-between items-center">
-                <h2 className="text-2xl font-semibold">Dashboard</h2>
-                <div className="flex gap-4">
-                    <Link href="/courses/new">
-                        <Button className="text-lg p-3 rounded-lg bg-orange-500/10 border text-orange-500 border-orange-500 hover:bg-orange-500/20">
-                            Add Course <Plus size={20} />
-                        </Button>
-                    </Link>
-                    <LogoutButton />
-                </div>
-            </div>
+  const {
+    stats,
+    progressData,
+    courses,
+    todayAssignments,
+    chartLabels,
+    chartCounts,
+  } = await getDashboardData();
 
-            {/* Stats row */}
-            <div className="flex-shrink-0 w-full">
-                <Stats stats={stats} />
-            </div>
+  return (
+    <div className="min-h-screen flex flex-col gap-4 p-4 lg:h-screen xl:overflow-hidden">
+      {/* Header */}
+      <div className="flex flex-col gap-3 flex-row items-center justify-between">
+        <h2 className="text-2xl font-semibold">Dashboard</h2>
 
-            {/* Row 1: Assignment bar chart (3 cols) + Progress (1 col) */}
-            <div className="grid grid-cols-4 gap-4 w-full flex-shrink-0">
-                <div className="col-span-3 min-w-0">
-                    <AssignmentsPerDayChart labels={chartLabels} counts={chartCounts} />
-                </div>
-                <div className="col-span-1 min-w-0">
-                    <DashboardProgressChart data={progressData} />
-                </div>
-            </div>
+        <div className="flex flex-col gap-2 flex-row items-center gap-3">
+        <Link href="/courses/new" className="w-full sm:w-auto">
+            <Button
+                className="
+                group
+                w-full sm:w-auto
+                text-base sm:text-lg
+                px-2 py-2 rounded-lg
+                bg-orange-500/10 border text-orange-500 border-orange-500
+                hover:bg-orange-500/20
+                "
+            >
+                <span className="mr-2">Add Course</span>
+                <Plus size={25} className="transition-transform duration-400 group-hover:rotate-90 -ml-2" />
+            </Button>
+        </Link>
 
-            {/* Row 2: Courses + Upcoming assignments (1-1 cols) */}
-            <div className="grid grid-cols-2 gap-4 w-full flex-1 min-h-0">
-                <div className="min-w-0 min-h-0 h-full flex flex-col">
-                    <TableCourses courses={courses} />
-                </div>
-                <div className="min-w-0 min-h-0 h-full flex flex-col">
-                    <TableUpcomingAssignments assignments={todayAssignments} />
-                </div>
-            </div>
+          <div className="w-full sm:w-auto">
+            <LogoutButton />
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Stats */}
+      <div className="w-full">
+        <Stats stats={stats} />
+      </div>
+      
+
+      {/* Main content:
+          - Mobile: normal flow (page scroll)
+          - Desktop: take remaining height and allow inner sections to scroll
+      */}
+      <div className="flex flex-col gap-4 lg:flex-1 lg:min-h-0">
+        {/* Row 1 */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
+          <div className="lg:col-span-3 min-w-0">
+            <AssignmentsPerDayChart labels={chartLabels} counts={chartCounts} />
+          </div>
+          <div className="lg:col-span-1 min-w-0">
+            <DashboardProgressChart data={progressData} />
+          </div>
+        </div>
+
+        {/* Row 2 */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full xl:flex-1 xl:min-h-0">
+          {/* On desktop: these should stretch and their internals handle scrolling.
+              On mobile: remove forced h-full so they size naturally.
+          */}
+          <div className="min-w-0 flex flex-col lg:min-h-0">
+            <TableCourses courses={courses} />
+          </div>
+
+          <div className="min-w-0 flex flex-col lg:min-h-0">
+            <TableUpcomingAssignments assignments={todayAssignments} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

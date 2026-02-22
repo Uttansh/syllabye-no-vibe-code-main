@@ -37,11 +37,10 @@ const data = [
     ];
   return (
     <div className="flex items-center justify-center w-full">
-      <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 w-full">
+      <dl className="grid grid-cols-1 gap-4 grid-cols-2 lg:grid-cols-4 w-full">
         {data.map((item) => (
           <Card key={item.name} className="p-6 py-4">
             <CardContent className="p-0">
-              
               <dd className="flex items-baseline space-x-2.5 justify-between">
                 <span className="text-3xl font-semibold text-foreground">
                   {item.stat}
