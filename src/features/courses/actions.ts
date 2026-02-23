@@ -1,12 +1,13 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 
-//delete course action
 export async function deleteCourse(courseId: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const supabase = await createClerkSupabaseClient();
   const { error } = await supabase
     .from("courses")
     .delete()
@@ -16,12 +17,11 @@ export async function deleteCourse(courseId: string) {
 }
 
 
-//update course action
 export async function updateCourse(courseId: string, formData: FormData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) throw new Error("User not found");
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not found");
+
+  const supabase = await createClerkSupabaseClient();
 
   const updates = {
     name: formData.get("name") as string,
@@ -37,7 +37,7 @@ export async function updateCourse(courseId: string, formData: FormData) {
     .from("courses")
     .update(updates)
     .eq("id", courseId)
-    .eq("user_id", user.id);
+    .eq("user_id", userId);
 
   if (error) throw error;
 

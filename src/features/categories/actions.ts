@@ -1,15 +1,16 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
     
-//delete category action
 export async function deleteCategory(id: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not found");
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not found");
+
+  const supabase = await createClerkSupabaseClient();
 
   const { error } = await supabase
     .from('categories')
@@ -21,11 +22,44 @@ export async function deleteCategory(id: string) {
   revalidatePath('/courses/[courseId]');
 }
 
-//create category action
+export async function updateCategory(categoryId: string, formData: FormData) {
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
+
+    const name = String(formData.get("name") ?? "").trim();
+    const weight_str = String(formData.get("weight") ?? "").trim();
+    const extensions_allowed = parseInt(String(formData.get("extensions_allowed") ?? "0")) || 0;
+    const drops_allowed = parseInt(String(formData.get("drops_allowed") ?? "0")) || 0;
+
+    if (!name) throw new Error("Category name is required");
+    const weight = parseFloat(weight_str);
+    if (!Number.isFinite(weight) || weight < 0 || weight > 100) {
+        throw new Error("Weight must be 0–100");
+    }
+
+    const { error } = await supabase
+        .from("categories")
+        .update({
+            name,
+            weight,
+            extensions_allowed,
+            drops_allowed,
+        })
+        .eq("id", categoryId);
+
+    if (error) throw error;
+
+    revalidatePath('/courses/[courseId]');
+}
+
+
 export async function createCategory(courseId: string, formData: FormData) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
 
     const name = String(formData.get("name") ?? "").trim();
     const weight_str = String(formData.get("weight") ?? "").trim();
@@ -58,34 +92,3 @@ export async function createCategory(courseId: string, formData: FormData) {
     redirect(`/courses/${courseId}`);
 }
 
-//update category action
-export async function updateCategory(categoryId: string, formData: FormData) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
-
-    const name = String(formData.get("name") ?? "").trim();
-    const weight_str = String(formData.get("weight") ?? "").trim();
-    const extensions_allowed = parseInt(String(formData.get("extensions_allowed") ?? "0")) || 0;
-    const drops_allowed = parseInt(String(formData.get("drops_allowed") ?? "0")) || 0;
-
-    if (!name) throw new Error("Category name is required");
-    const weight = parseFloat(weight_str);
-    if (!Number.isFinite(weight) || weight < 0 || weight > 100) {
-        throw new Error("Weight must be 0–100");
-    }
-
-    const { error } = await supabase
-        .from("categories")
-        .update({
-            name,
-            weight,
-            extensions_allowed,
-            drops_allowed,
-        })
-        .eq("id", categoryId);
-
-    if (error) throw error;
-
-    revalidatePath('/courses/[courseId]');
-}

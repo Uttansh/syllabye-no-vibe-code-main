@@ -1,21 +1,21 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function getCourseStats(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user }, } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
     
-    // Get course details
     const { data: course_data, error: course_error } = await supabase
         .from('courses')
         .select('name, number, units, instructors')
         .eq('id', courseId)
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .single();
     
     if (course_error) throw course_error;
     
-    // Get assignments for this course
     const { data: assignments_data, error: assignments_error } = await supabase
         .from('assignments')
         .select('completed')
@@ -33,34 +33,34 @@ export async function getCourseStats(courseId: string) {
     };
 }
 
-// Get a single course by ID
 export async function getCourseById(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Unauthorized");
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const supabase = await createClerkSupabaseClient();
   
     const { data, error } = await supabase
       .from('courses')
       .select('*')
       .eq('id', courseId)
-      .eq('user_id', user.id)  // Security: ensure user owns this course
+      .eq('user_id', userId)
       .single();
   
     if (error) throw error;
     return data;
   }
   
-  // Get all assignments for a specific course
   export async function getAssignmentsByCourse(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Unauthorized");
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const supabase = await createClerkSupabaseClient();
   
     const { data, error } = await supabase
       .from('assignments')
       .select('id, name, due_date, completed, courses!inner(user_id)')
       .eq('courses.id', courseId)
-      .eq('courses.user_id', user.id)  // Security: ensure user owns the course
+      .eq('courses.user_id', userId)
       .order('due_date', { ascending: true });
   
     if (error) throw error;
@@ -74,15 +74,16 @@ export async function getCourseById(courseId: string) {
 
 
 export async function getCategoriesByCourse(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
 
     const { data: categories_data, error: categories_error } = await supabase
         .from('categories')
         .select('id, name, weight, is_exam, is_mandatory, drops_allowed, drops_used, extensions_allowed, extensions_used, courses!inner(user_id)')
         .eq('course_id', courseId)
-        .eq('courses.user_id', user.id)
+        .eq('courses.user_id', userId)
         .order('weight', { ascending: false });
 
     if (categories_error) throw categories_error;
@@ -100,11 +101,11 @@ export async function getCategoriesByCourse(courseId: string) {
     }));
 }
 
-//get progress data for a course
 export async function getProgressData(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
 
     const { data, error } = await supabase
         .from('assignments')
@@ -117,19 +118,20 @@ export async function getProgressData(courseId: string) {
         { category: 'completed', amount: completedCount, fill: '#22c55e' },
         { category: 'remaining', amount: remainingCount, fill: '#2c2c2c' },
     ]
-};
+}
 
 export async function getCourseDashboardData(courseId: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Unauthorized");
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const supabase = await createClerkSupabaseClient();
 
     const [courseResult, assignmentsResult, categoriesResult] = await Promise.all([
         supabase
             .from('courses')
             .select('*')
             .eq('id', courseId)
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .single(),
         supabase
             .from('assignments')

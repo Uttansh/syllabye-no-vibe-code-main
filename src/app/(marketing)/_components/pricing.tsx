@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import AnimatedWrapper from "@/components/animated-wrapper";
+import { PricingTable } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const tooltipContent = {
   reminders: "Smart reminders before deadlines so you don’t submit late.",
@@ -64,17 +66,16 @@ const plans = [
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="flex min-h-screen flex-col text-center items-center justify-center bg-background py-24">
-      <AnimatedWrapper delay={0.1}> <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl">
-      <span className="line-through decoration-red-500 text-red-500">Subscription.</span> <span>One time payment</span>.
+    <section id="pricing" className="bg-background py-24">
+      <AnimatedWrapper delay={0.1}>
+      <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl mb-4">
+        Pricing
       </h2>
-      </AnimatedWrapper>
-      <AnimatedWrapper delay={0.2}>
-      <p className="text-md md:text-lg text-paragraph mt-3 max-w-2xl">
-      Pay once, use until you graduate. 
+      <p className="text-md md:text-lg text-paragraph mt-3 max-w-2xl mb-8">
+        For the price of <span className="underline decoration-orange-500">lunch</span>? 🤔 Sign me up!
       </p>
       </AnimatedWrapper>
-      <AnimatedWrapper delay={0.3}>
+      {/* <AnimatedWrapper delay={0.3}>
       <div className="mx-auto mt-12 grid max-w-(--breakpoint-lg) grid-cols-1 items-center gap-8 sm:mt-16 lg:grid-cols-1 lg:gap-0">
         {plans.map((plan) => (
           <div
@@ -83,7 +84,7 @@ const Pricing = () => {
                 plan.isPopular,
             })}
             key={plan.name}
-          >
+          > */}
             {/* {plan.isPopular && (
               <Badge className="absolute right-0 top-0 rounded-none rounded-bl-lg px-5 py-1 uppercase">
                 Most Popular
@@ -91,7 +92,7 @@ const Pricing = () => {
             )} */}
 
             {/* <h3 className="font-medium text-lg">{plan.name}</h3> */}
-
+{/* 
             <p className="mt-2 font-semibold text-4xl">
               {`$${plan.price}`}
               {plan.price !== 0 && (
@@ -136,9 +137,18 @@ const Pricing = () => {
           </div>
         ))}
       </div>
+      </AnimatedWrapper> */}
+      
+      {/* uses dark mode the pricing table */}
+      <AnimatedWrapper delay={0.1} className="w-full">
+      <PricingTable
+        appearance={{
+          baseTheme: dark,
+        }}
+      />
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.4}>
-      <p className="mt-10 text-center text-xs text-muted-foreground max-w-xl">
+      <p className="mt-4 text-xs text-muted-foreground max-w-xl">
         Cancel anytime. Your courses and assignments stay private.
       </p>
       </AnimatedWrapper>

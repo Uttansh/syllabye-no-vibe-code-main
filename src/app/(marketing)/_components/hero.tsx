@@ -33,8 +33,10 @@ export function Hero() {
       </p>
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.3}>
-      <Button asChild className="mt-10 text-lg p-5 bg-foreground text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
-        <Link href="/auth/login">Get Started Free <CircleChevronRight strokeWidth={3} size={28}/></Link>
+      <Button asChild className="mt-10 text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+        <Link href="/sign-in">
+          Get Started Free <CircleChevronRight strokeWidth={3} size={28}/>
+        </Link>
       </Button>
       </AnimatedWrapper>
       </div>

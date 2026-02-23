@@ -4,6 +4,7 @@ import { analyzeSyllabusAction } from "@/features/courses/createCourseAction";
 import { Textarea } from "@/components/ui/textarea";
 import { TimezoneInput } from "@/components/timezone-input";
 import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function NewCoursePage() {
     return (
@@ -12,6 +13,7 @@ export default function NewCoursePage() {
         <h1 className="text-2xl font-bold">Create a New Course</h1>
       <Card className="w-full min-w-2xl">
         <CardContent>
+          
           <form action={analyzeSyllabusAction} className="space-y-4">
             <TimezoneInput />
             <textarea
@@ -32,6 +34,7 @@ export default function NewCoursePage() {
             </Link>
             </div>
           </form>
+         
         </CardContent>
       </Card>
       </div>

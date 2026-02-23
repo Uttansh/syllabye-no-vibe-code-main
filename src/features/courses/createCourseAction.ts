@@ -2,7 +2,8 @@
 
 import Groq from "groq-sdk";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { toPostgresTimestamptzString } from "@/lib/date-utils";
@@ -151,19 +152,16 @@ Return the JSON now:`;
   const validated = ParsedSyllabusSchema.parse(parsed);
 
   // ---------------- POST-PROCESSING ----------------
-  // 1. Clean course number (remove any non-numeric/dash characters)
   if (validated.course.number) {
     validated.course.number = validated.course.number.replace(/[^0-9-]/g, '');
   }
 
-  // 2. Clean instructor names (remove any titles that slipped through)
   if (validated.course.instructors) {
     validated.course.instructors = validated.course.instructors
       .replace(/\b(Prof|Professor|Dr|Doctor|Mr|Mrs|Ms)\.?\s*/gi, '')
       .trim();
   }
 
-  // 3. Normalize all due dates to 11:59 PM in the user's timezone
   validated.assignments.forEach((assignment) => {
     if (assignment.due_date) {
       assignment.due_date = toPostgresTimestamptzString(
@@ -172,24 +170,17 @@ Return the JSON now:`;
     }
   });
 
-  // ---------------- DEBUG ----------------
-  console.log("✅ Validated syllabus:", JSON.stringify(validated, null, 2));
-
   // ---------------- SAVE TO DATABASE ----------------
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
 
-  if (!user) {
-    throw new Error("User not authenticated");
-  }
+  const supabase = await createClerkSupabaseClient();
 
   // 1. Insert course
   const { data: course, error: courseError } = await supabase
     .from("courses")
     .insert({
-      user_id: user.id,
+      user_id: userId,
       name: validated.course.name,
       number: validated.course.number,
       units: validated.course.units,
@@ -235,6 +226,7 @@ Return the JSON now:`;
   const assignmentInserts = validated.assignments.map((assign) => ({
     course_id: course.id,
     category_id: categoryMap.get(assign.category_name),
+    user_id: userId,
     name: assign.name,
     due_date: assign.due_date,
     points_possible: assign.points_possible,
@@ -253,9 +245,6 @@ Return the JSON now:`;
     throw new Error("Failed to create assignments");
   }
 
-  // Revalidate the courses page
   revalidatePath("/dashboard");
-
-  // Redirect to the new course page
   redirect(`/courses/${course.id}`);
 }

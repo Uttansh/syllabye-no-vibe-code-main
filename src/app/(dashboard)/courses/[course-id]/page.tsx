@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import CourseStats from "../../../../features/courses/components/stats";
 import TableCourseAssignments from "../../../../features/courses/components/assignmentTable";
 import { Button } from "@/components/ui/button";    
-import { LogoutButton } from "@/components/logout-button";
+import { UserButton } from "@clerk/nextjs";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { Plus } from "lucide-react";
 import TableCourseCategories from "../../../../features/courses/components/categoryTable";
@@ -42,12 +42,14 @@ export default async function CourseDashboardPage(
             </Breadcrumb> 
             <div className="flex gap-4">
             <Link href={`/categories/add/${courseId}`}>
-            <Button className="text-lg px-3 rounded-lg text-white bg-white/10 hover:bg-white/20 border border-white">Add Category <Plus size={20} /></Button>
+            <Button className="text-lg px-3 rounded-lg text-orange-500 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500">Add Category <Plus size={20} /></Button>
             </Link>
             <Link href={`/assignments/add/${courseId}`}>
-            <Button className="text-lg px-3 rounded-lg text-white bg-white/10 hover:bg-white/20 border border-white">Add Assignment <Plus size={20} /></Button>
+            <Button className="text-lg px-3 rounded-lg text-orange-500 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500">Add Assignment <Plus size={20} /></Button>
             </Link>
-            <LogoutButton />
+            <Button className="p-1 rounded-full bg-white/10 border text-white border-white hover:bg-white/20">
+              <UserButton />
+            </Button>
             </div>
         </div>
         <div className="flex-shrink-0">

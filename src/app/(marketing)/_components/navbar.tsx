@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export function Navbar() {
   const navLinks = [
     { href: "/#workflow", label: "Workflow" },
-    { href: "/#whyus", label: "Why Us?" },
+    { href: "/#comparison", label: "Why Us?" },
     { href: "/#faq", label: "FAQ" },
     { href: "/#pricing", label: "Pricing" },
   ];
@@ -26,8 +26,11 @@ export function Navbar() {
               </Link>
             ))}
           </div>
-        <Button asChild className="text-lg p-5 bg-foreground text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+        {/* <Button asChild className="text-lg p-5 bg-foreground text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
             <Link href="/auth/login">Log in</Link>
+        </Button> */}
+        <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+          <Link href="/sign-in">Log in</Link>
         </Button>
         </div>
       </nav>

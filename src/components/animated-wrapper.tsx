@@ -23,18 +23,18 @@ export default function AnimatedWrapper({
       animate={onView ? undefined : { opacity: 1, y: 0 }}
       whileInView={onView ? { opacity: 1, y: 0 } : undefined}
       viewport={onView ? { once: true, amount: 0.2 } : undefined}
-      // transition={{
-      //   duration: 0.5,  // ✅ constant animation speed
-      //   delay,          // ✅ true start delay
-      //   ease: "easeOut",
-      // }}
       transition={{
-        type: "spring",
-        damping: 6,
-        mass: 0.5,
-        bounce: 0.6,
-        delay
-      }}      
+        duration: 0.5,  // ✅ constant animation speed
+        delay,          // ✅ true start delay
+        ease: "easeOut",
+      }}
+      // transition={{
+      //   type: "spring",
+      //   damping: 6,
+      //   mass: 0.5,
+      //   bounce: 0.6,
+      //   delay
+      // }}      
       className={className}
       {...props}
     >

@@ -1,11 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 import { addDays, startOfDay, format, isSameDay } from "date-fns";
 import { redirect } from "next/navigation";
 
 export async function getDashboardData() {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect("/auth/login");
+    const { userId } = await auth();
+    if (!userId) redirect("/");
+
+    const supabase = await createClerkSupabaseClient();
 
     const now = new Date();
     const start = startOfDay(now);
@@ -17,11 +19,11 @@ export async function getDashboardData() {
         supabase
             .from('courses')
             .select('id, name, number, units, assignments(id, name, due_date, completed)')
-            .eq('user_id', user.id),
+            .eq('user_id', userId),
         supabase
             .from('assignments')
             .select('id, name, due_date, courses!inner(user_id, name, number)')
-            .eq('courses.user_id', user.id)
+            .eq('courses.user_id', userId)
             .eq('completed', false)
             .gte('due_date', start.toISOString())
             .order('due_date', { ascending: true }),
@@ -98,21 +100,21 @@ export async function getDashboardData() {
     };
 }
 
-//get the dashboard stats for the user
 export async function getDashboardStats() {
-    const supabase = await createClient();
-    const { data: { user }, } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
     
     const { data: assignments_data, error: assignments_error } = await supabase
         .from('assignments')
         .select('completed, courses!inner(user_id)')
-        .eq('courses.user_id', user.id);
+        .eq('courses.user_id', userId);
     
     const { data: courses_data, error: courses_error } = await supabase
         .from('courses')
         .select('units')
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
     
     if (assignments_error || courses_error) throw assignments_error || courses_error;
     
@@ -124,16 +126,16 @@ export async function getDashboardStats() {
     };
 }
 
-//get all the courses for the user
 export async function getCourses() {
-    const supabase = await createClient();
-    const { data: { user }, } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
     
     const { data: courses_data, error: courses_error } = await supabase
         .from('courses')
         .select('*, assignments(completed, due_date)')
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
     
     if (courses_error) throw courses_error;
     
@@ -154,20 +156,18 @@ export async function getCourses() {
     });
 }
 
-//get the next 10 upcoming assignments for the user
 export async function getUpcomingAssignments() {
-    const supabase = await createClient();
-    const { data: { user }, } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
     
-    //get current time in UTC
     const nowUTC = new Date();
     
-    //get next 10 upcoming assignments
     const { data: assignments_data, error: assignments_error } = await supabase
         .from('assignments')
         .select('id, name, due_date, courses!inner(user_id, name, number)')
-        .eq('courses.user_id', user.id)
+        .eq('courses.user_id', userId)
         .eq('completed', false)
         .gte('due_date', nowUTC.toISOString())
         .order('due_date', { ascending: true })
@@ -184,21 +184,19 @@ export async function getUpcomingAssignments() {
     }));
 }
 
-//get assignments due in the next 24 hours
 export async function getTodayAssignments() {
-    const supabase = await createClient();
-    const { data: { user }, } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
     
-    //get range for the next 24 hours in UTC
     const nowUTC = new Date();
     const next72HoursUTC = addDays(nowUTC, 4);
     
-    //get assignments due in the next 24 hours
     const { data: assignments_data, error: assignments_error } = await supabase
         .from('assignments')
         .select('id, name, due_date, courses!inner(user_id, name, number)')
-        .eq('courses.user_id', user.id)
+        .eq('courses.user_id', userId)
         .eq('completed', false)
         .gte('due_date', nowUTC.toISOString())
         .lt('due_date', next72HoursUTC.toISOString())
@@ -215,14 +213,14 @@ export async function getTodayAssignments() {
     }));
 }
 
-/** Assignments per day for the next 14 days (today onwards). Returns labels and counts. */
 export async function getAssignmentsPerDayNextTwoWeeks(): Promise<{
     labels: string[];
     counts: number[];
 }> {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
 
     const now = new Date();
     const start = startOfDay(now);
@@ -231,7 +229,7 @@ export async function getAssignmentsPerDayNextTwoWeeks(): Promise<{
     const { data: assignments_data, error } = await supabase
         .from("assignments")
         .select("due_date, courses!inner(user_id)")
-        .eq("courses.user_id", user.id)
+        .eq("courses.user_id", userId)
         .eq("completed", false)
         .gte("due_date", start.toISOString())
         .lt("due_date", end.toISOString());
@@ -254,18 +252,18 @@ export async function getAssignmentsPerDayNextTwoWeeks(): Promise<{
     return { labels, counts };
 }
 
-/** Total assignment progress across all courses (completed vs remaining). */
 export async function getTotalProgressData(): Promise<
     { category: string; amount: number; fill?: string }[]
 > {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not found");
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not found");
+
+    const supabase = await createClerkSupabaseClient();
 
     const { data, error } = await supabase
         .from("assignments")
         .select("completed, courses!inner(user_id)")
-        .eq("courses.user_id", user.id);
+        .eq("courses.user_id", userId);
 
     if (error) throw error;
 
