@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
 import { Bug, MessageCircle, Plus } from "lucide-react";
 import { dark } from "@clerk/themes";
+import Image from "next/image";
 
 export default async function DashboardPage() {
   const {

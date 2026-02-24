@@ -8,10 +8,10 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { toPostgresTimestamptzString } from "@/lib/date-utils";
 
-// ---------------- SCHEMA ----------------
+//schema for parsed syllabus
 const ParsedSyllabusSchema = z.object({
   course: z.object({
-    name: z.string().min(1),
+  name: z.string().min(1),
     number: z.string().nullable(),
     units: z.number().nullable(),
     instructors: z.string().nullable(),
@@ -46,7 +46,7 @@ const ParsedSyllabusSchema = z.object({
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
-// ---------------- ACTION ----------------
+//create course action
 export async function analyzeSyllabusAction(formData: FormData) {
   const syllabus = formData.get("syllabus") as string;
   const offset = (formData.get("timezone") as string) || "+00:00";
@@ -54,7 +54,6 @@ export async function analyzeSyllabusAction(formData: FormData) {
     throw new Error("Missing or invalid syllabus");
   }
 
-  // ---------------- IMPROVED LLM PROMPT ----------------
   const prompt = `You are a precise course syllabus parser. Extract structured information and return ONLY valid JSON matching this schema:
 
 {
@@ -148,10 +147,10 @@ Return the JSON now:`;
     throw new Error("Failed to parse JSON");
   }
 
-  // ---------------- VALIDATE ----------------
+  //validate parsed syllabus
   const validated = ParsedSyllabusSchema.parse(parsed);
 
-  // ---------------- POST-PROCESSING ----------------
+  //post-process parsed syllabus
   if (validated.course.number) {
     validated.course.number = validated.course.number.replace(/[^0-9-]/g, '');
   }
@@ -170,13 +169,13 @@ Return the JSON now:`;
     }
   });
 
-  // ---------------- SAVE TO DATABASE ----------------
+  //save to database
   const { userId } = await auth();
   if (!userId) throw new Error("User not authenticated");
 
   const supabase = await createClerkSupabaseClient();
 
-  // 1. Insert course
+  //insert course
   const { data: course, error: courseError } = await supabase
     .from("courses")
     .insert({
