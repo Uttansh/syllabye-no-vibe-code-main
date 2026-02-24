@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CircleChevronRight, Target, BarChart3, Clock } from "lucide-react";
 import AnimatedWrapper from "@/components/animated-wrapper";
+import { SignedIn } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
 
 export function Hero() {
   return (
@@ -33,11 +35,20 @@ export function Hero() {
       </p>
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.3}>
+      <SignedOut>
       <Button asChild className="mt-10 text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
         <Link href="/sign-in">
           Get Started Free <CircleChevronRight strokeWidth={3} size={28}/>
         </Link>
       </Button>
+      </SignedOut>
+      <SignedIn>
+      <Button asChild className="mt-10 text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+        <Link href="/dashboard">
+          Go To Dashboard <CircleChevronRight strokeWidth={3} size={28}/>
+        </Link>
+      </Button>
+      </SignedIn>
       </AnimatedWrapper>
       </div>
 

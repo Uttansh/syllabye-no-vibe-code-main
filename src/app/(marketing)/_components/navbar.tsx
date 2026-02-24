@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
+import { SignedIn } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
+import { ArrowRight } from "lucide-react";
 export function Navbar() {
   const navLinks = [
     { href: "/#workflow", label: "Workflow" },
@@ -29,9 +31,17 @@ export function Navbar() {
         {/* <Button asChild className="text-lg p-5 bg-foreground text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
             <Link href="/auth/login">Log in</Link>
         </Button> */}
+        <SignedOut>
         <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
           <Link href="/sign-in">Log in</Link>
         </Button>
+        </SignedOut>
+        <SignedIn>
+        <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+          <Link href="/dashboard">Dashboard</Link>
+          
+        </Button>
+        </SignedIn>
         </div>
       </nav>
     </div>
