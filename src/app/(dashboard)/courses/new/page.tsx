@@ -5,9 +5,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { TimezoneInput } from "@/components/timezone-input";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getCourseAddPermissions } from "@/features/courses/actions";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-export default function NewCoursePage() {
+export default async function NewCoursePage() {
+    const { userId } = await auth();
+    if (!userId) redirect("/signin");
+    const canAddCourse = await getCourseAddPermissions();
     return (
+    canAddCourse ? (
     <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Create a New Course</h1>
@@ -39,5 +46,15 @@ export default function NewCoursePage() {
       </Card>
       </div>
     </div>
+    ) : (
+    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-4xl font-bold">You have reached your course limit 😔</h1>
+      </div>
+      <Link href="/#pricing">
+      <Button className="mt-5 text-xl bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20 w-full">Upgrade to add more courses</Button>
+      </Link>
+    </div>
+    )
     );
 }

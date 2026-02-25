@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { format } from "date-fns";
-
+import { DueTimeCell } from "@/components/local-date";
 export type SevenDayAssignment = {
   id: string;
   name: string;
@@ -61,15 +61,15 @@ export default function SevenDayCalendarView({
                       </span>
                       <div className="flex flex-row justify-between">
                       {assignment.due_date && (
-                        <span className="block text-[10px] opacity-80 mt-0.5">
-                          {format(assignment.due_date, "h:mm a")}
+                        <span className="opacity-80 mt-0.5">
+                          <DueTimeCell date={assignment.due_date}/>
                         </span>
                       )}
-                      {assignment.courseNumber && (
-                        <span className="block text-[10px] opacity-80 mt-0.5">
+                      {assignment.courseNumber && 
+                        <span className="opacity-80 mt-0.5">
                           {assignment.courseNumber}
                         </span>
-                      )}
+                      }
                       </div>
                     </Link>
                   ))

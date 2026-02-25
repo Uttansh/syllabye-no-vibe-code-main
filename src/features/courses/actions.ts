@@ -44,3 +44,19 @@ export async function updateCourse(courseId: string, formData: FormData) {
   revalidatePath("/courses");
   revalidatePath(`/courses/${courseId}`);
 }
+
+//get permissions for adding course based on user plan 
+export async function getCourseAddPermissions() {
+  const { userId, has } = await auth();
+  if (!userId) throw new Error("User not found");
+  const supabase = await createClerkSupabaseClient();
+  let limit = 0;
+  if(has({plan: "pro_plan"}) ) {
+    limit = 5;
+  } else if(has({plan: "pro_plus_plan"}) ) {
+    limit = 10;
+  }
+  const { count, error } = await supabase.from("courses").select("*", { count: "exact", head: true }).eq("user_id", userId);
+  if (error) throw error;
+  return (count ?? 0) < limit;
+}

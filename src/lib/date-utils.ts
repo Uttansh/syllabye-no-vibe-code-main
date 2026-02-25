@@ -43,3 +43,4 @@ if (utcOffsetStr) {
 // Pad time to HH:MM:SS if seconds are missing
 return `${dateStr} ${timeStr.padEnd(8, ":00")} ${offset}`;
 }
+
