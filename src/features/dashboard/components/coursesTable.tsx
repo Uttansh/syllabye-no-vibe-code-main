@@ -26,6 +26,7 @@ interface Course {
   number: string;
   assignmentsLeft: number;
   hasDueSoon: boolean;
+  units: number;
 }
 
 export default function TableCourses({ courses }: { courses: Course[] }) {
@@ -40,6 +41,7 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
                 <TableHead className="px-6">Courses</TableHead>
                 <TableHead className="px-6">Course #</TableHead>
                 <TableHead className="px-6">Assignments Left</TableHead>
+                <TableHead className="px-6">Units</TableHead>
                 <TableHead className="px-6 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -77,6 +79,7 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
                       </TableCell>
                       <TableCell className="px-6">{course.number}</TableCell>
                       <TableCell className="px-6">{course.assignmentsLeft}</TableCell>
+                      <TableCell className="px-6">{course.units}</TableCell>
                       <TableCell className="text-right px-6">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>

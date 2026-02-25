@@ -11,7 +11,6 @@ export async function getDashboardData() {
 
     const now = new Date();
     const start = startOfDay(now);
-    const end = addDays(start, 14);
     const next72Hours = addDays(now, 3);
     const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
@@ -35,7 +34,13 @@ export async function getDashboardData() {
     const coursesData = coursesResult.data;
     const upcomingData = upcomingResult.data;
 
-    const allAssignments = coursesData.flatMap((c: any) => c.assignments ?? []);
+    const allAssignments = coursesData.flatMap((c: any) =>
+        (c.assignments ?? []).map((a: any) => ({
+            ...a,
+            courseName: c.name,
+            courseNumber: c.number,
+        }))
+    );
     const totalAssignments = allAssignments.length;
     const completedAssignments = allAssignments.filter((a: any) => a.completed).length;
 
@@ -58,6 +63,7 @@ export async function getDashboardData() {
             name: course.name,
             number: course.number,
             assignmentsLeft: incomplete.length,
+            units: course.units,
             hasDueSoon: incomplete.some(
                 (a: any) => new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
             ),
@@ -77,26 +83,28 @@ export async function getDashboardData() {
             courseNumber: a.courses.number,
         }));
 
-    const days = Array.from({ length: 14 }, (_, i) => addDays(start, i));
-    const chartLabels = days.map((d) => {
-        if (isSameDay(d, now)) return "Today";
-        return format(d, "EEE d");
+    const sevenDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+    const sevenDayAssignments = sevenDays.map((dayDate) => {
+        const label = isSameDay(dayDate, now) ? "Today" : format(dayDate, "EEE d");
+        const assignments = allAssignments
+            .filter((a: any) => isSameDay(new Date(a.due_date), dayDate))
+            .map((a: any) => ({
+                id: a.id,
+                name: a.name,
+                due_date: a.due_date,
+                completed: a.completed,
+                courseName: a.courseName,
+                courseNumber: a.courseNumber,
+            }));
+        return { date: dayDate, label, assignments };
     });
-    const chartCounts = days.map(() => 0);
-    for (const row of upcomingData) {
-        const due = new Date(row.due_date);
-        if (due >= end) continue;
-        const dayIndex = days.findIndex((d) => isSameDay(d, due));
-        if (dayIndex >= 0) chartCounts[dayIndex] += 1;
-    }
 
     return {
         stats,
         progressData,
         courses,
         todayAssignments,
-        chartLabels,
-        chartCounts,
+        sevenDayAssignments,
     };
 }
 

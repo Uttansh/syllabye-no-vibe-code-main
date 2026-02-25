@@ -1,7 +1,7 @@
 import Stats from "../../../features/dashboard/components/stats";
 import TableUpcomingAssignments from "../../../features/dashboard/components/assignmentTable";
 import TableCourses from "../../../features/dashboard/components/coursesTable";
-import AssignmentsPerDayChart from "../../../features/dashboard/components/assignmentsPerDayChart";
+import SevenDayCalendarView from "../../../features/dashboard/components/sevenDayCalendarView";
 import DashboardProgressChart from "../../../features/dashboard/components/dashboardProgressChart";
 import { getDashboardData } from "../../../features/dashboard/queries";
 import Link from "next/link";
@@ -17,8 +17,7 @@ export default async function DashboardPage() {
     progressData,
     courses,
     todayAssignments,
-    chartLabels,
-    chartCounts,
+    sevenDayAssignments,
   } = await getDashboardData();
 
   return (
@@ -35,7 +34,7 @@ export default async function DashboardPage() {
                 group
                 w-full sm:w-auto
                 text-base sm:text-lg
-                px-2 py-2 rounded-lg
+                px-2 py-2 rounded-md
                 bg-red-500/10 border text-red-500 border-red-500
                 hover:bg-red-500/20
                 "
@@ -51,7 +50,7 @@ export default async function DashboardPage() {
                 group
                 w-full sm:w-auto
                 text-base sm:text-lg
-                px-2 py-2 rounded-lg
+                px-2 py-2 rounded-md
                 bg-green-500/10 border text-green-500 border-green-500
                 hover:bg-green-500/20
                 "
@@ -67,7 +66,7 @@ export default async function DashboardPage() {
                 group
                 w-full sm:w-auto
                 text-base sm:text-lg
-                px-2 py-2 rounded-lg
+                px-2 py-2 rounded-md
                 bg-orange-500/10 border text-orange-500 border-orange-500
                 hover:bg-orange-500/20
                 "
@@ -92,34 +91,29 @@ export default async function DashboardPage() {
       </div>
       
 
-      {/* Main content:
-          - Mobile: normal flow (page scroll)
-          - Desktop: take remaining height and allow inner sections to scroll
-      */}
-      <div className="flex flex-col gap-4 lg:flex-1 lg:min-h-0">
-        {/* Row 1 */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full xl:flex-1 xl:min-h-0">
-          {/* On desktop: these should stretch and their internals handle scrolling.
-              On mobile: remove forced h-full so they size naturally.
-          */}
-          <div className="min-w-0 flex flex-col lg:min-h-0">
-            <TableCourses courses={courses} />
-          </div>
+      {/* Main content - 2 row grid */}
+<div className="grid grid-rows-2 gap-4 w-full lg:h-full">
 
-          <div className="min-w-0 flex flex-col lg:min-h-0">
-            <TableUpcomingAssignments assignments={todayAssignments} />
-          </div>
-        </div>
-        {/* Row 2 */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
-          <div className="lg:col-span-3 min-w-0">
-            <AssignmentsPerDayChart labels={chartLabels} counts={chartCounts} />
-          </div>
-          <div className="lg:col-span-1 min-w-0">
-            <DashboardProgressChart data={progressData} />
-          </div>
-        </div>
-      </div>
+{/* Row 1 — Full Width Calendar */}
+<div className="w-full min-w-0">
+  <SevenDayCalendarView days={sevenDayAssignments} />
+</div>
+
+{/* Row 2 — 3/4 Courses + 1/4 Progress */}
+<div className="grid grid-cols-1 lg:grid-cols-4 gap-4 min-h-0">
+  
+  {/* Courses */}
+  <div className="lg:col-span-3 min-w-0 min-h-0">
+    <TableCourses courses={courses} />
+  </div>
+
+  {/* Progress Chart */}
+  <div className="lg:col-span-1 min-w-0 min-h-0">
+    <DashboardProgressChart data={progressData} />
+  </div>
+
+</div>
+</div>
     </div>
   );
 }
