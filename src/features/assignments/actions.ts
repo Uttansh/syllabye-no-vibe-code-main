@@ -53,6 +53,7 @@ export async function updateAssignment(id: string, formData: FormData) {
   const points_possible_str = String(formData.get("points_possible") ?? "").trim();
   const points_earned_str = String(formData.get("points_earned") ?? "").trim();
   const category_id = String(formData.get("category_id") ?? "").trim();
+  const completed = formData.get("completed") === "true";
 
   if (!name || !due_date) throw new Error("Name and due date are required");
   if (!/^\d{4}-\d{2}-\d{2}\s/.test(due_date)) throw new Error("Invalid due date format");
@@ -65,15 +66,27 @@ export async function updateAssignment(id: string, formData: FormData) {
   if (points_possible !== null && !Number.isFinite(points_possible)) throw new Error("Invalid points_possible");
   if (points_earned !== null && !Number.isFinite(points_earned)) throw new Error("Invalid points_earned");
 
+  const updatePayload: {
+    name: string;
+    due_date: string;
+    points_possible: number | null;
+    points_earned: number | null;
+    category_id: string;
+    completed: boolean;
+    completed_at: string | null;
+  } = {
+    name,
+    due_date,
+    points_possible,
+    points_earned,
+    category_id,
+    completed,
+    completed_at: completed ? new Date().toISOString() : null,
+  };
+
   const { error } = await supabase
     .from("assignments")
-    .update({
-      name,
-      due_date,
-      points_possible,
-      points_earned,
-      category_id,
-    })
+    .update(updatePayload)
     .eq("id", id);
 
   if (error) throw error;

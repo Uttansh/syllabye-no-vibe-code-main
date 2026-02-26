@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { updateAssignment } from "../actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,6 +26,7 @@ interface EditAssignmentFormProps {
     categoryId?: string;
     pointsPossible: number | null;
     pointsEarned: number | null;
+    completed: boolean;
   };
   categories: Array<{ id: string; name: string }>;
 }
@@ -50,6 +52,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
   
   const [selectedDate, setSelectedDate] = useState<string>(initial.dateStr);
   const [selectedTime, setSelectedTime] = useState<string>(initial.timeStr);
+  const [completed, setCompleted] = useState<boolean>(assignment.completed);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -65,6 +68,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
     const formData = new FormData(e.currentTarget);
     formData.set("due_date", toPostgresTimestamptzString(selectedDate, selectedTime));
     formData.set("category_id", selectedCategoryId);
+    formData.set("completed", completed ? "true" : "false");
 
     try {
       await updateAssignment(assignment.id, formData);
@@ -175,6 +179,18 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
                 disabled={isLoading}
               />
             </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="completed"
+              checked={completed}
+              onCheckedChange={(checked) => setCompleted(checked === true)}
+              disabled={isLoading}
+            />
+            <Label htmlFor="completed" className="cursor-pointer">
+              Mark as complete
+            </Label>
           </div>
 
           <div className="flex gap-4 mt-10">

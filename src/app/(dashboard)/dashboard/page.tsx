@@ -28,7 +28,7 @@ export default async function DashboardPage() {
 
         <div className="flex flex-col gap-2 flex-row items-center gap-4">
         {/* button to report a problem */}
-        <Link href="/feedback" className="w-full sm:w-auto">
+        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSc6xVuObtT7KDZy8CnVYDIU4dgF7ifZcxD1JB0eS5pe0BnFZQ/viewform?usp=publish-editor" className="w-full sm:w-auto">
             <Button
                 className="
                 group
@@ -44,7 +44,7 @@ export default async function DashboardPage() {
             </Button>
         </Link>
         {/* button for user feedback form */}
-        <Link href="/feedback" className="w-full sm:w-auto">
+        <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=publish-editor" className="w-full sm:w-auto">
             <Button
                 className="
                 group
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
                 hover:bg-green-500/20
                 "
             >
-                <span className="mr-2">Give feedback</span>
+                <span className="mr-2">Suggest Features</span>
                 <MessageCircle size={25} className="transition-transform duration-400 group-hover:-rotate-90 -ml-2" />
             </Button>
         </Link>

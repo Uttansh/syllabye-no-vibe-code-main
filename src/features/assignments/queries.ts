@@ -17,6 +17,7 @@ export async function getAssignmentById(assignmentId: string) {
       points_earned,
       category_id,
       course_id,
+      completed,
       categories ( id, name ),
       courses!inner( id, user_id )
   `)
@@ -40,5 +41,6 @@ export async function getAssignmentById(assignmentId: string) {
     category: categoryData?.name || null,
     pointsPossible: assignment.points_possible,
     pointsEarned: assignment.points_earned,
+    completed: assignment.completed ?? false,
   };
 }
