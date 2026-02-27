@@ -32,11 +32,11 @@ interface Course {
 export default function TableCourses({ courses }: { courses: Course[] }) {
   return (
     <div className="flex flex-col h-full min-h-0">   
-      <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden">
+      <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden bg-blue-200">
         <CardContent className="px-0 py-0 m-0 h-full">
           <ScrollArea className="h-full">
             <Table>
-            <TableHeader className="px-4 sticky top-0 bg-card z-10">
+            <TableHeader className="px-4 sticky top-0 bg-blue-200 z-10">
               <TableRow className="h-14">
                 <TableHead className="px-6">Courses</TableHead>
                 <TableHead className="px-6">Course #</TableHead>

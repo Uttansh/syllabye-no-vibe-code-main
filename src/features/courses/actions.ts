@@ -50,7 +50,7 @@ export async function getCourseAddPermissions() {
   const { userId, has } = await auth();
   if (!userId) throw new Error("User not found");
   const supabase = await createClerkSupabaseClient();
-  let limit = 0;
+  let limit = 1;
   if(has({plan: "pro_plan"}) ) {
     limit = 5;
   } else if(has({plan: "pro_plus_plan"}) ) {
