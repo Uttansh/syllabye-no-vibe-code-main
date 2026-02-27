@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { analyzeSyllabusAction } from "@/features/courses/createCourseAction";
+import { CreateCourseButton } from "@/features/courses/components/CreateCourseButton";
 import { Textarea } from "@/components/ui/textarea";
 import { TimezoneInput } from "@/components/timezone-input";
 import Link from "next/link";
@@ -31,11 +32,9 @@ export default async function NewCoursePage() {
                 className="w-full rounded-lg bg-gray-100 dark:bg-neutral-900 p-4 border border-neutral-200 dark:border-neutral-800"
             />
             <div className="flex justify-between gap-4">
-            <Button type="submit" className="flex-1 bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20">
-              Create Course
-            </Button>
+            <CreateCourseButton />
             <Link href="/dashboard" className="flex-1">
-              <Button type="submit" className="bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20 w-full">
+              <Button type="button" className="bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20 w-full">
                 Cancel
               </Button>
             </Link>
