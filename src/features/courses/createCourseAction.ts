@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { toPostgresTimestamptzString } from "@/lib/date-utils";
+import { rateLimit } from "@/lib/rate-limit";
 
 //schema for parsed syllabus
 const ParsedSyllabusSchema = z.object({
@@ -48,6 +49,8 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
 //create course action
 export async function analyzeSyllabusAction(formData: FormData) {
+  await rateLimit("analyzeSyllabus", 2, 1);
+
   const syllabus = formData.get("syllabus") as string;
   const offset = (formData.get("timezone") as string) || "+00:00";
   if (!syllabus || syllabus.length < 50) {
