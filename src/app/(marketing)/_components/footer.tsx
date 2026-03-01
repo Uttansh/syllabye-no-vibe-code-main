@@ -29,44 +29,57 @@ const sections = [
 
 const Footer = () => {
   return (
-    <footer className="bg-background pt-24 pb-12">
-      <div className="mx-auto max-w-screen-xl">
-        <div className="">
-          <div className="flex justify-between gap-12">
-            <div>
-              <Link href="/" className="inline-flex items-center gap-2 text-2xl font-semibold">
-                Syllabye
-              </Link>
-              <p className="text-muted-foreground mt-1.5">
-                Start optimizing today!
-              </p>
-            </div>
-            {sections.map(({ title, links }) => (
-              <div key={title}>
-                <h3 className="text-lg font-semibold">{title}</h3>
-                <ul className="mt-3 flex flex-col gap-2">
-                  {links.map(({ title, href }) => (
-                    <li key={title}>
-                      <Link
-                        href={href}
-                        className="text-muted-foreground hover:text-primary"
-                      >
-                        {title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col-reverse items-center justify-center gap-6 pt-6 pb-4 sm:flex-row sm:justify-between">
-          <p className="text-muted-foreground text-sm font-medium">
-            &copy; {new Date().getFullYear()} Syllabye. All rights reserved.
-          </p>
-        </div>
+    <footer className="bg-background pt-20 pb-12 border-t">
+  <div className="mx-auto max-w-6xl">
+    
+    {/* Top Section */}
+    <div className="grid gap-12 md:grid-cols-4">
+      
+      {/* Brand */}
+      <div className="space-y-3">
+        <Link
+          href="/"
+          className="text-xl md:text-2xl font-semibold"
+        >
+          Syllabye
+        </Link>
+        <p className="text-muted-foreground text-sm">
+          Start optimizing today!
+        </p>
       </div>
-    </footer>
+
+      {/* Links */}
+      {sections.map(({ title, links }) => (
+        <div key={title}>
+          <h3 className="text-base font-semibold mb-3">
+            {title}
+          </h3>
+          <ul className="space-y-2">
+            {links.map(({ title, href }) => (
+              <li key={title}>
+                <Link
+                  href={href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+    </div>
+
+    {/* Bottom Section */}
+    <div className="mt-16 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p className="text-muted-foreground text-xs sm:text-sm">
+        © {new Date().getFullYear()} Syllabye. All rights reserved.
+      </p>
+    </div>
+
+  </div>
+</footer>
   );
 };
 

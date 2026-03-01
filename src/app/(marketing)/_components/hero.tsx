@@ -8,8 +8,8 @@ import { SignedOut } from "@clerk/nextjs";
 
 export function Hero() {
   return (
-    <section className="py-24 mt-20" id="hero">
-      <div className="">
+    <section className="py-24" id="hero">
+      <div className="mx-auto">
       <AnimatedWrapper delay={0.1}>
       <h1 className="text-2xl md:text-3xl font-semibold leading-none max-w-lg scroll-mt-20">
         One{" "}

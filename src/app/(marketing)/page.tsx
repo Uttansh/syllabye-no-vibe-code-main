@@ -8,8 +8,9 @@ import PricingSection from "./_components/pricing";
 
 export default function Home() { 
   return (
-  <div className="max-w-4xl mx-auto">
-    <Navbar />
+  <>
+  <Navbar />
+  <main className="max-w-4xl mx-auto px-4 lg:px-0 mt-12">
     <Hero />
     <hr />
     <WorkflowSection />
@@ -21,9 +22,9 @@ export default function Home() {
     <PricingSection />
     <hr />
     <Footer />
-  </div>
+  </main>
+  </>
   );
-
 }
 
 

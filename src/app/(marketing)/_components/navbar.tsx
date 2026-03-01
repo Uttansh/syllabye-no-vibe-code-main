@@ -12,8 +12,8 @@ export function Navbar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 dark:bg-background/50 bg-muted/10 backdrop-blur-md border-b">
-      <nav className="w-full max-w-4xl mx-auto py-3">
+    <div className="fixed top-0 left-0 w-full dark:bg-background/50 bg-muted/10 backdrop-blur-md border-b">
+      <nav className="w-full max-w-4xl py-3 mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <h1 className="text-2xl font-bold">Syllabye 👋</h1>
@@ -32,15 +32,14 @@ export function Navbar() {
             <Link href="/auth/login">Log in</Link>
         </Button> */}
         <SignedOut>
-        <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
-          <Link href="/sign-in">Log in</Link>
-        </Button>
+          <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+            <Link href="/sign-in">Log in</Link>
+          </Button>
         </SignedOut>
         <SignedIn>
-        <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
-          <Link href="/dashboard">Dashboard</Link>
-          
-        </Button>
+          <Button asChild className="text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
         </SignedIn>
         </div>
       </nav>
