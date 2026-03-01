@@ -24,12 +24,12 @@ export default async function NewCoursePage() {
           
           <form action={analyzeSyllabusAction} className="space-y-4">
             <TimezoneInput />
-            <textarea
+            <Textarea
                 name="syllabus"
                 required
                 rows={20}
                 placeholder="Add as much detail as possible for the best results. Please also mention your location for timezone purposes. Paste your syllabus here..."
-                className="w-full rounded-lg bg-gray-100 dark:bg-neutral-900 p-4 border border-neutral-200 dark:border-neutral-800"
+                className="w-full rounded-lg bg-gray-100 dark:bg-neutral-900 p-4 border border-neutral-200 dark:border-neutral-800 max-w-2xl"
             />
             <div className="flex justify-between gap-4">
             <CreateCourseButton />

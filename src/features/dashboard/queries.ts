@@ -83,28 +83,29 @@ export async function getDashboardData() {
             courseNumber: a.courses.number,
         }));
 
-    const sevenDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
-    const sevenDayAssignments = sevenDays.map((dayDate) => {
-        const label = isSameDay(dayDate, now) ? "Today" : format(dayDate, "EEE d");
-        const assignments = allAssignments
-            .filter((a: any) => isSameDay(new Date(a.due_date), dayDate))
-            .map((a: any) => ({
-                id: a.id,
-                name: a.name,
-                due_date: a.due_date,
-                completed: a.completed,
-                courseName: a.courseName,
-                courseNumber: a.courseNumber,
-            }));
-        return { date: dayDate, label, assignments };
-    });
+    // Wide UTC window for calendar: covers any user's "next 7 days" (timezone extremes UTC-12 to UTC+14)
+    const calendarWindowStart = new Date(now.getTime() - 48 * 60 * 60 * 1000);
+    const calendarWindowEnd = addDays(now, 10);
+    const calendarAssignments = allAssignments
+        .filter((a: any) => {
+            const due = new Date(a.due_date);
+            return due >= calendarWindowStart && due <= calendarWindowEnd;
+        })
+        .map((a: any) => ({
+            id: a.id,
+            name: a.name,
+            due_date: a.due_date,
+            completed: a.completed,
+            courseName: a.courseName,
+            courseNumber: a.courseNumber,
+        }));
 
     return {
         stats,
         progressData,
         courses,
         todayAssignments,
-        sevenDayAssignments,
+        calendarAssignments,
     };
 }
 

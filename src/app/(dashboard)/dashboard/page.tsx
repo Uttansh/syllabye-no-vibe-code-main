@@ -1,7 +1,7 @@
 import Stats from "../../../features/dashboard/components/stats";
 import TableUpcomingAssignments from "../../../features/dashboard/components/assignmentTable";
 import TableCourses from "../../../features/dashboard/components/coursesTable";
-import SevenDayCalendarView from "../../../features/dashboard/components/sevenDayCalendarView";
+import SevenDayCalendarWrapper from "../../../features/dashboard/components/SevenDayCalendarWrapper";
 import DashboardProgressChart from "../../../features/dashboard/components/dashboardProgressChart";
 import { getDashboardData } from "../../../features/dashboard/queries";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     progressData,
     courses,
     todayAssignments,
-    sevenDayAssignments,
+    calendarAssignments,
   } = await getDashboardData();
 
   return (
@@ -96,7 +96,7 @@ export default async function DashboardPage() {
 
 {/* Row 1 — Full Width Calendar */}
 <div className="w-full min-w-0">
-  <SevenDayCalendarView days={sevenDayAssignments} />
+  <SevenDayCalendarWrapper assignments={calendarAssignments} />
 </div>
 
 {/* Row 2 — 3/4 Courses + 1/4 Progress */}
