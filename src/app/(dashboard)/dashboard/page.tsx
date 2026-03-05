@@ -27,6 +27,8 @@ export default async function DashboardPage() {
         <h2 className="text-2xl font-semibold">Dashboard</h2>
 
         <div className="flex flex-col gap-2 flex-row items-center gap-4">
+        {/* Report / Suggest: hidden on mobile, shown from md up */}
+        <div className="hidden md:flex items-center gap-4">
         {/* button to report a problem */}
         <Link href="https://docs.google.com/forms/d/e/1FAIpQLSc6xVuObtT7KDZy8CnVYDIU4dgF7ifZcxD1JB0eS5pe0BnFZQ/viewform?usp=publish-editor" className="w-full sm:w-auto">
             <Button
@@ -59,6 +61,7 @@ export default async function DashboardPage() {
                 <MessageCircle size={25} className="transition-transform duration-400 group-hover:-rotate-90 -ml-2" />
             </Button>
         </Link>
+        </div>
         {/* button for adding a course */}
         <Link href="/courses/new" className="w-full sm:w-auto">
             <Button
@@ -94,7 +97,7 @@ export default async function DashboardPage() {
       {/* Main content - 2 row grid */}
 <div className="grid grid-rows-2 gap-4 w-full lg:h-full">
 
-{/* Row 1 — Full Width Calendar */}
+{/* Row 1 — Full Width Calendar (scroll inside card on narrow viewports) */}
 <div className="w-full min-w-0">
   <SevenDayCalendarWrapper assignments={calendarAssignments} />
 </div>
@@ -114,6 +117,26 @@ export default async function DashboardPage() {
 
 </div>
 </div>
+
+      {/* Mobile only: Report problem + Suggest Features at bottom */}
+      <div className="flex md:hidden flex-col gap-2">
+        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSc6xVuObtT7KDZy8CnVYDIU4dgF7ifZcxD1JB0eS5pe0BnFZQ/viewform?usp=publish-editor" className="w-full">
+          <Button
+            className="group w-full text-base px-2 py-2 rounded-md bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20"
+          >
+            <span className="mr-2">Report a problem</span>
+            <Bug size={25} className="transition-transform duration-400 group-hover:-rotate-90 -ml-2" />
+          </Button>
+        </Link>
+        <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=publish-editor" className="w-full">
+          <Button
+            className="group w-full text-base px-2 py-2 rounded-md bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20"
+          >
+            <span className="mr-2">Suggest Features</span>
+            <MessageCircle size={25} className="transition-transform duration-400 group-hover:-rotate-90 -ml-2" />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

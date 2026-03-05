@@ -40,9 +40,9 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
               <TableRow className="h-14">
                 <TableHead className="px-6">Courses</TableHead>
                 <TableHead className="px-6">Course #</TableHead>
-                <TableHead className="px-6">Assignments Left</TableHead>
-                <TableHead className="px-6">Units</TableHead>
-                <TableHead className="px-6 text-right">Actions</TableHead>
+                <TableHead className="px-6 hidden md:table-cell">Assignments Left</TableHead>
+                <TableHead className="px-6 hidden md:table-cell">Units</TableHead>
+                <TableHead className="px-6 text-right hidden md:table-cell">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -78,9 +78,9 @@ export default function TableCourses({ courses }: { courses: Course[] }) {
                         </div>
                       </TableCell>
                       <TableCell className="px-6">{course.number}</TableCell>
-                      <TableCell className="px-6">{course.assignmentsLeft}</TableCell>
-                      <TableCell className="px-6">{course.units}</TableCell>
-                      <TableCell className="text-right px-6">
+                      <TableCell className="px-6 hidden md:table-cell">{course.assignmentsLeft}</TableCell>
+                      <TableCell className="px-6 hidden md:table-cell">{course.units}</TableCell>
+                      <TableCell className="text-right px-6 hidden md:table-cell">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="size-8">

@@ -71,9 +71,6 @@ const Pricing = () => {
       <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl mb-4">
         Pricing
       </h2>
-      <p className="text-md md:text-lg text-paragraph mt-3 max-w-2xl mb-8">
-        For the price of <span className="underline decoration-orange-500">lunch</span>? 🤔 Sign me up!
-      </p>
       </AnimatedWrapper>
       {/* <AnimatedWrapper delay={0.3}>
       <div className="mx-auto mt-12 grid max-w-(--breakpoint-lg) grid-cols-1 items-center gap-8 sm:mt-16 lg:grid-cols-1 lg:gap-0">

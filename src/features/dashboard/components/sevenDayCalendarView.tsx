@@ -26,11 +26,11 @@ export default function SevenDayCalendarView({
     <Card className="flex flex-col h-full w-full pt-4 pb-4 border rounded-xl min-h-0">
       {/* <h3 className="text-2xl font-semibold mb-1 shrink-0 px-4">Upcoming Due Dates</h3> */}
       <div className="flex-1 min-h-0 overflow-x-auto">
-        <div className="grid grid-cols-7 h-full min-w-[560px] gap-0">
+        <div className="grid grid-cols-7 h-full min-w-7xl gap-0">
           {days.map((day, i) => (
             <div
               key={day.label}
-              className={`flex flex-col min-w-0 h-full pl-2 pr-2 ${i > 0 ? "border-l border-dashed border-border" : ""}`}
+              className={`flex flex-col min-w-[80px] h-full pl-2 pr-2 ${i > 0 ? "border-l border-dashed border-border" : ""}`}
             >
               <div className="text-sm font-medium text-center shrink-0 pb-1 mb-2">
                 {day.label}
