@@ -93,7 +93,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
 
           <div className="flex flex-row gap-4">
             <div className="space-y-2 flex-1">
-            <Label htmlFor="name">Name *</Label>
+            <Label htmlFor="name" className="text-neutral-400">Name <span className="text-red-500">*</span></Label>
             <Input
               id="name"
               name="name"
@@ -105,7 +105,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
           
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category *</Label>
+            <Label htmlFor="category" className="text-neutral-400">Category <span className="text-red-500">*</span></Label>
             <Select
               value={selectedCategoryId}
               onValueChange={setSelectedCategoryId}
@@ -128,9 +128,9 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
           </div>
           </div>
 
-          <FieldGroup className="flex-row gap-4">
-            <Field className="flex-1">
-              <FieldLabel htmlFor="due-date">Due Date *</FieldLabel>
+          <div className="flex flex-row gap-4">
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="due-date" className="text-neutral-400">Due Date <span className="text-red-500">*</span></Label>
               <Input
                 type="date"
                 id="due-date"
@@ -139,10 +139,10 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
                 required
                 disabled={isLoading}
               />
-            </Field>
+            </div>
 
-            <Field className="w-32 flex-1">
-              <FieldLabel htmlFor="due-time">Due Time *</FieldLabel>
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="due-time" className="text-neutral-400">Due Time <span className="text-red-500">*</span></Label>
               <Input
                 type="time"
                 id="due-time"
@@ -152,29 +152,29 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
                 required
                 disabled={isLoading}
               />
-            </Field>
-          </FieldGroup>
+            </div>
+          </div>
 
           <div className="flex flex-row gap-4">
             <div className="space-y-2 flex-1">
-              <Label htmlFor="points_possible">Points Possible</Label>
+              <Label htmlFor="points_possible" className="text-neutral-400">Points Possible</Label>
               <Input
                 id="points_possible"
                 name="points_possible"
                 type="number"
-                step="0.01"
+                step="1"
                 defaultValue={assignment.pointsPossible ?? ""}
                 disabled={isLoading}
               />
             </div>
 
             <div className="space-y-2 flex-1">
-              <Label htmlFor="points_earned">Points Earned</Label>
+              <Label htmlFor="points_earned" className="text-neutral-400">Points Earned</Label>
               <Input
                 id="points_earned"
                 name="points_earned"
                 type="number"
-                step="0.01"
+                step="1"
                 defaultValue={assignment.pointsEarned ?? ""}
                 disabled={isLoading}
               />

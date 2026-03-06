@@ -6,8 +6,11 @@ import { createClerkSupabaseClient } from "@/lib/supabase/server";
 import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { fromZonedTime } from "date-fns-tz";
 import { toPostgresTimestamptzString } from "@/lib/date-utils";
 import { rateLimit } from "@/lib/rate-limit";
+import { SYLLABUS_MAX_LENGTH } from "@/features/courses/constants";
+import { getCourseAddPermissions } from "@/features/courses/actions";
 
 //schema for parsed syllabus
 const ParsedSyllabusSchema = z.object({
@@ -53,9 +56,20 @@ export async function analyzeSyllabusAction(formData: FormData) {
 
   const syllabus = formData.get("syllabus") as string;
   const offset = (formData.get("timezone") as string) || "+00:00";
+  const timezoneIana = (formData.get("timezone_iana") as string) || "";
   if (!syllabus || syllabus.length < 50) {
     throw new Error("Missing or invalid syllabus");
   }
+  if (syllabus.length > SYLLABUS_MAX_LENGTH) {
+    throw new Error(
+      `Syllabus is too long. Maximum ${SYLLABUS_MAX_LENGTH.toLocaleString()} characters allowed.`
+    );
+  }
+
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
+  const canAddCourse = await getCourseAddPermissions();
+  if (!canAddCourse) throw new Error("You have reached your course limit.");
 
   const prompt = `You are a precise course syllabus parser. Extract structured information and return ONLY valid JSON matching this schema:
 
@@ -125,6 +139,10 @@ CRITICAL FORMATTING RULES:
 
 8. **Return Format**: Return ONLY the raw JSON object. NO markdown code blocks, NO backticks, NO explanations.
 
+ADDITIONAL INSTRUCTIONS:
+- Extract every single assignment and category mentioned in the syllabus. Do not make up any assignments or categories. Everything including labs, readings, in-class activities, check-ins, etc. should be included.
+- Use the current year for due dates if one is not mentioned.
+
 SYLLABUS TEXT:
 """
 ${syllabus}
@@ -165,17 +183,21 @@ Return the JSON now:`;
   }
 
   validated.assignments.forEach((assignment) => {
-    if (assignment.due_date) {
+    if (!assignment.due_date) return;
+    if (timezoneIana) {
+      const localDateStr = `${assignment.due_date}T23:59:00`;
+      const utcDate = fromZonedTime(localDateStr, timezoneIana);
+      assignment.due_date = utcDate.toISOString();
+    } else {
       assignment.due_date = toPostgresTimestamptzString(
-        assignment.due_date, "23:59:00", offset
+        assignment.due_date,
+        "23:59:00",
+        offset
       );
     }
   });
 
   //save to database
-  const { userId } = await auth();
-  if (!userId) throw new Error("User not authenticated");
-
   const supabase = await createClerkSupabaseClient();
 
   //insert course

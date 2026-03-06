@@ -47,7 +47,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
 
             <div className="flex gap-4">
               <div className="space-y-2 flex-1">
-                <Label htmlFor="name">Name *</Label>
+                <Label htmlFor="name" className="text-neutral-400">Name *</Label>
                 <Input
                   id="name"
                   name="name"
@@ -58,7 +58,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
               </div>
 
               <div className="space-y-2 flex-1">
-                <Label htmlFor="weight">Weight (%) *</Label>
+                <Label htmlFor="weight" className="text-neutral-400">Weight (%) *</Label>
                 <Input
                   id="weight"
                   name="weight"
@@ -75,7 +75,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
 
             <div className="flex gap-4">
               <div className="space-y-2 flex-1">
-                <Label htmlFor="drops_allowed">Drops Allowed</Label>
+                <Label htmlFor="drops_allowed" className="text-neutral-400">Drops Allowed</Label>
                 <Input
                   id="drops_allowed"
                   name="drops_allowed"
@@ -88,7 +88,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
               </div>
 
               <div className="space-y-2 flex-1">
-                <Label htmlFor="extensions_allowed">Extensions Allowed</Label>
+                <Label htmlFor="extensions_allowed" className="text-neutral-400">Extensions Allowed</Label>
                 <Input
                   id="extensions_allowed"
                   name="extensions_allowed"
@@ -100,8 +100,6 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
                 />
               </div>
             </div>
-
-            <hr className="my-6" />
             <div className="flex gap-4">
               <Button
                 type="submit"

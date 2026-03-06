@@ -56,7 +56,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="name">Course Name *</Label>
+            <Label htmlFor="name" className="text-neutral-400">Course Name *</Label>
             <Input
               id="name"
               name="name"
@@ -69,7 +69,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
 
           <div className="flex flex-row gap-2">
             <div className="space-y-2 flex-1">
-              <Label htmlFor="number">Course Number *</Label>
+              <Label htmlFor="number" className="text-neutral-400">Course Number *</Label>
               <Input
                 id="number"
                 name="number"
@@ -81,7 +81,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
             </div>
 
             <div className="space-y-2 flex-1">
-              <Label htmlFor="units">Units *</Label>
+              <Label htmlFor="units" className="text-neutral-400">Units *</Label>
               <Input
                 id="units"
                 name="units"
@@ -97,7 +97,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="instructors">Instructors *</Label>
+            <Label htmlFor="instructors" className="text-neutral-400">Instructors *</Label>
             <Input
               id="instructors"
               name="instructors"
@@ -109,7 +109,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="target_grade">Target Grade</Label>
+            <Label htmlFor="target_grade" className="text-neutral-400">Target Grade</Label>
             <Input
               id="target_grade"
               name="target_grade"
@@ -120,7 +120,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="drop_policy_notes">Drop Policy Notes</Label>
+            <Label htmlFor="drop_policy_notes" className="text-neutral-400">Drop Policy Notes</Label>
             <Textarea
               id="drop_policy_notes"
               name="drop_policy_notes"
@@ -132,7 +132,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="extension_policy_notes">Extension Policy Notes</Label>
+            <Label htmlFor="extension_policy_notes" className="text-neutral-400">Extension Policy Notes</Label>
             <Textarea
               id="extension_policy_notes"
               name="extension_policy_notes"

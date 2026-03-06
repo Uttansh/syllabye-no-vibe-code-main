@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { analyzeSyllabusAction } from "@/features/courses/createCourseAction";
 import { CreateCourseButton } from "@/features/courses/components/CreateCourseButton";
-import { Textarea } from "@/components/ui/textarea";
+import { SyllabusTextarea } from "@/features/courses/components/SyllabusTextarea";
 import { TimezoneInput } from "@/components/timezone-input";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -24,13 +24,7 @@ export default async function NewCoursePage() {
           
           <form action={analyzeSyllabusAction} className="space-y-4">
             <TimezoneInput />
-            <Textarea
-                name="syllabus"
-                required
-                rows={20}
-                placeholder="Add as much detail as possible for the best results. Please also mention your location for timezone purposes. Paste your syllabus here..."
-                className="w-full rounded-lg bg-gray-100 dark:bg-neutral-900 p-4 border border-neutral-200 dark:border-neutral-800 max-w-2xl"
-            />
+            <SyllabusTextarea />
             <div className="flex justify-between gap-4">
             <CreateCourseButton />
             <Link href="/dashboard" className="flex-1">
