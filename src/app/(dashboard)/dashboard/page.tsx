@@ -2,6 +2,7 @@ import Stats from "../../../features/dashboard/components/stats";
 import SevenDayCalendarWrapper from "../../../features/dashboard/components/SevenDayCalendarWrapper";
 import DashboardProgressChart from "../../../features/dashboard/components/dashboardProgressChart";
 import { getDashboardData } from "../../../features/dashboard/queries";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const {
@@ -25,13 +26,13 @@ export default async function DashboardPage() {
         </div>
 
         {/* Row 2 — Progress Chart (full width, courses moved to sidebar) */}
-        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900">
+        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
           {/* <DashboardProgressChart data={progressData} /> */}
-          <p>What should go here? Suggestions welcome!</p>
+          <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=header" className="text-sm text-muted-foreground text-center hover:underline hover:cursor-pointer">What should go here? Suggestions welcome!</Link>
         </div>
-        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900">
+        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
           {/* <DashboardProgressChart data={progressData} /> */}
-          <p>What should go here? Suggestions welcome!</p>
+          <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=header" className="text-sm text-muted-foreground text-center hover:underline hover:cursor-pointer">What should go here? Suggestions welcome!</Link>
         </div>
       </div>
     </div>
