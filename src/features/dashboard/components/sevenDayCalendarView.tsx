@@ -24,6 +24,7 @@ export default function SevenDayCalendarView({
   days: SevenDayItem[];
 }) {
   return (
+
     <Card className="flex flex-col h-full w-full pt-4 pb-4 border-2 border-border rounded-md min-h-0 shadow-none">
       {/* <h3 className="text-2xl font-semibold mb-1 shrink-0 px-4">Upcoming Due Dates</h3> */}
       <div className="flex-1 min-h-0 overflow-x-auto">

@@ -108,7 +108,6 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
               </div>
             </div>
 
-            <hr className="my-6" />
             <div className="flex gap-4">
               <Button
                 type="submit"

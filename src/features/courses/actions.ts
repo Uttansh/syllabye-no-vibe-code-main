@@ -55,7 +55,7 @@ export async function getCourseAddPermissions() {
   let limit = 1;
   if(has({plan: "pro_plan"}) ) {
     limit = 5;
-  } else if(has({plan: "pro_plus_plan"}) ) {
+  } else if(has({plan: "pro_plan_plus"}) ) {
     limit = 10;
   }
   const { count, error } = await supabase.from("courses").select("*", { count: "exact", head: true }).eq("user_id", userId);

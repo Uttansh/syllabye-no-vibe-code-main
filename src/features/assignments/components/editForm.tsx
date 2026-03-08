@@ -138,6 +138,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
                 onChange={(e) => setSelectedDate(e.target.value)}
                 required
                 disabled={isLoading}
+                className="text-green"
               />
             </div>
 
@@ -194,14 +195,14 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
           </div>
 
           <div className="flex gap-4 mt-10">
-            <Button type="submit" disabled={isLoading} className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30">
+            <Button type="submit" disabled={isLoading} className="flex-1 text-md bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
             <Button
               type="button"
               onClick={() => router.back()}
               disabled={isLoading}
-              className="flex-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
+              className="flex-1 text-md bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
             >
               Cancel
             </Button>

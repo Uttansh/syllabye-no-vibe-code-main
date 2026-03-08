@@ -5,7 +5,7 @@ import { CircleChevronRight, Target, BarChart3, Clock } from "lucide-react";
 import AnimatedWrapper from "@/components/animated-wrapper";
 import { SignedIn } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
-
+import HeroAssignmentsDemo from "./herodemo";
 export function Hero() {
   return (
     <section className="py-24" id="hero">
@@ -36,14 +36,14 @@ export function Hero() {
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.3}>
       <SignedOut>
-      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
+      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-md">
         <Link href="/sign-in">
           Get Started Free <CircleChevronRight strokeWidth={3} size={28}/>
         </Link>
       </Button>
       </SignedOut>
       <SignedIn>
-      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
+      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-md">
         <Link href="/dashboard">
           Go To Dashboard <CircleChevronRight strokeWidth={3} size={28}/>
         </Link>
@@ -82,6 +82,11 @@ export function Hero() {
           all without switching between platforms.
         </p>
       </div> */}
+      <AnimatedWrapper delay={0.4}>
+      <div className="mt-14 w-full">
+        <HeroAssignmentsDemo />
+      </div>
+      </AnimatedWrapper>
     </section>
   );
 }

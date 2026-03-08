@@ -6,7 +6,7 @@ import { SYLLABUS_MAX_LENGTH } from "@/features/courses/constants";
 import { cn } from "@/lib/utils";
 
 const placeholder =
-  "Add as much detail as possible for the best results. Please also mention your location for timezone purposes. Paste your syllabus here...";
+  "Add as much detail as possible for the best results. Paste your syllabus here...";
 
 export function SyllabusTextarea({ className }: { className?: string }) {
   const [length, setLength] = useState(0);

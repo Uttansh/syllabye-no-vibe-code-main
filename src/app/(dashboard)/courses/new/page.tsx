@@ -28,7 +28,7 @@ export default async function NewCoursePage() {
             <div className="flex justify-between gap-4">
             <CreateCourseButton />
             <Link href="/dashboard" className="flex-1">
-              <Button type="button" className="bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30 w-full">
+              <Button type="button" className="bg-red-100 text-md text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30 w-full">
                 Cancel
               </Button>
             </Link>
@@ -43,7 +43,7 @@ export default async function NewCoursePage() {
       </div>
     </div>
     ) : (
-    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-2xl w-full">
+    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-4xl font-bold">You have reached your course limit 😔</h1>
       </div>

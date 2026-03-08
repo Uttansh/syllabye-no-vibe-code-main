@@ -18,16 +18,21 @@ export default async function DashboardPage() {
       </div> */}
 
       {/* Main content - Calendar + Progress */}
-      <div className="grid grid-rows-2 gap-4 w-full lg:h-full flex-1 min-h-0">
+      <div className="grid grid-rows-2 grid-cols-4 gap-4 w-full lg:h-full flex-1 min-h-0">
         {/* Row 1 — Full Width Calendar */}
-        <div className="w-full min-w-0">
+        <div className="w-full min-w-0 col-span-4">
           <SevenDayCalendarWrapper assignments={calendarAssignments} />
         </div>
 
         {/* Row 2 — Progress Chart (full width, courses moved to sidebar) */}
-        {/* <div className="min-w-0 min-h-0">
-          <DashboardProgressChart data={progressData} />
-        </div> */}
+        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900">
+          {/* <DashboardProgressChart data={progressData} /> */}
+          <p>What should go here? Suggestions welcome!</p>
+        </div>
+        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900">
+          {/* <DashboardProgressChart data={progressData} /> */}
+          <p>What should go here? Suggestions welcome!</p>
+        </div>
       </div>
     </div>
   );

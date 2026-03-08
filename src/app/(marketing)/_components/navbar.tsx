@@ -12,7 +12,7 @@ export function Navbar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
+    <div className="fixed top-0 left-0 w-full bg-neutral-50 dark:bg-neutral-900 z-99 border-b border-neutral-200 dark:border-neutral-800">
       <nav className="w-full max-w-4xl py-3 mx-auto">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -32,12 +32,12 @@ export function Navbar() {
             <Link href="/auth/login">Log in</Link>
         </Button> */}
         <SignedOut>
-          <Button asChild className="text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
+          <Button asChild className="text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-md">
             <Link href="/sign-in">Log in</Link>
           </Button>
         </SignedOut>
         <SignedIn>
-          <Button asChild className="text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
+          <Button asChild className="text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-md">
             <Link href="/dashboard">My Dashboard</Link>
           </Button>
         </SignedIn>

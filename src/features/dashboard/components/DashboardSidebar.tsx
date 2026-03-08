@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
-import { Bug, Menu, MessageCircle, Plus, X } from "lucide-react";
+import { Bug, LogOut, Menu, MessageCircle, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { dark } from "@clerk/themes";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { SignOutButton } from "@clerk/nextjs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,7 +49,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
           className="text-2xl font-semibold hover:underline"
           onClick={() => setMobileOpen(false)}
         >
-          Dashboard
+          Syllabye 👋
         </Link>
       </div>
   
@@ -61,7 +62,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
   
         <div className="flex flex-col gap-1">
           {courses.length === 0 ? (
-            <p className="py-2 px-2 text-sm text-muted-foreground">Add a course to get started!</p>
+            <p className="py-2 px-2 text-md text-muted-foreground">Add a course to get started!</p>
           ) : (
             courses.map((course) => {
               const isActive =
@@ -72,7 +73,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
               <div
                 key={course.id}
                 className={cn(
-                  "flex items-center w-full gap-2 rounded-md px-2 py-1 text-sm transition-colors",
+                  "flex items-center w-full gap-2 rounded-md px-2 py-1 text-md transition-colors",
                   isActive
                     ? "bg-neutral-100 dark:bg-neutral-500/20"
                     : "hover:bg-neutral-100 dark:hover:bg-neutral-500/20"
@@ -83,15 +84,10 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
                   onClick={() => setMobileOpen(false)}
                   className="flex-1 min-w-0"
                 >
+                  <div className="flex items-center gap-2">
                   <span className="truncate max-w-35 block text-md" title={course.name}>
                     {course.name}
                   </span>
-                  <span className="text-md text-muted-foreground">
-                    {course.number}
-                  </span>
-                </Link>
-
-                <div className="flex items-center shrink-0">
                   {course.hasDueSoon && (
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -102,6 +98,14 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
                       </TooltipContent>
                     </Tooltip>
                   )}
+                  </div>
+                  <span className="text-md text-muted-foreground">
+                    {course.number}
+                  </span>
+                  
+                </Link>
+
+                <div className="flex items-center shrink-0 hover:bg-neutral-100 dark:hover:bg-neutral-500/30 transition-colors rounded-md">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
@@ -150,21 +154,21 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
   
           <div className="flex flex-col gap-2 mx-2">
             <Link href="/courses/new" onClick={() => setMobileOpen(false)}>
-              <Button className="group w-full text-sm px-3 py-2 rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-500/20 dark:text-amber-400 dark:hover:bg-amber-500/30 justify-between">
+              <Button className="group w-full text-md px-3 py-2 rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-500/20 dark:text-amber-400 dark:hover:bg-amber-500/30 justify-between">
                 <span className="mr-2 text-md">Add Course</span>
                 <Plus size={18} className="transition-transform group-hover:rotate-90" />
               </Button>
             </Link>
   
             <Link target="_blank" href={FEEDBACK_URL} onClick={() => setMobileOpen(false)}>
-              <Button className="group w-full text-sm px-3 py-2 rounded-md bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-400 dark:hover:bg-emerald-500/30 justify-between">
+              <Button className="group w-full text-md px-3 py-2 rounded-md bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-400 dark:hover:bg-emerald-500/30 justify-between">
                 <span className="mr-2 text-md">Request Feature</span>
                 <MessageCircle size={18} className="transition-transform group-hover:-rotate-90" />
               </Button>
             </Link>
   
             <Link target="_blank" href={REPORT_URL} onClick={() => setMobileOpen(false)}>
-              <Button className="group w-full text-sm px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">
+              <Button className="group w-full text-md px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">
                 <span className="mr-2 text-md">Report Problem</span>
                 <Bug size={18} className="transition-transform group-hover:-rotate-90" />
               </Button>
@@ -206,20 +210,32 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
             </Link>
           </div>
         </div>
-          
-        
-          
-
       </ScrollArea>
-  
       {/* Bottom Profile */}
-      <div className="border-t-2 border-border p-2">
-        <div className="flex items-center gap-3 rounded-md px-2 py-2 hover:bg-white/5 transition-colors cursor-pointer">
-          <UserButton
-            appearance={{ baseTheme: dark }}
-            afterSignOutUrl="/"
-          />
-          <span className="text-sm text-muted-foreground">My Account</span>
+      <div className="flex justify-between items-center gap-3 rounded-md px-5 py-4">
+        <SignOutButton>
+            <Button className="text-md w-full px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">
+              Logout
+              <LogOut size={18} />
+            </Button>
+          </SignOutButton>
+      </div>
+      <div className="border-t-2 border-border py-2 px-4">
+        <div className="flex justify-between items-center gap-3 rounded-md px-2 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition-colors">
+        <UserButton
+          appearance={{
+            baseTheme: dark,
+            elements: {
+              userButtonTrigger:
+                "rounded-md focus:outline-none focus:ring-0 w-full px-2 py-2",
+              userButtonBox: "flex flex-row items focus:outline-none focus:ring-0 w-full",
+              userButtonAvatarBox: "order-first",
+              userButtonOuterIdentifier: "order-last text-sm font-medium text-foreground",
+            },
+          }}
+          afterSignOutUrl="/"
+          showName
+        />
         </div>
       </div>
   
