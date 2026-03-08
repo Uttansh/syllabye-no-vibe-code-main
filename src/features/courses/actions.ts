@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { createClerkSupabaseClient } from "@/lib/supabase/server";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export async function deleteCourse(courseId: string) {
   const { userId } = await auth();
@@ -14,6 +15,7 @@ export async function deleteCourse(courseId: string) {
     .eq("id", courseId);
   if (error) throw error;
   revalidatePath("/dashboard"); 
+  redirect("/dashboard");
 }
 
 

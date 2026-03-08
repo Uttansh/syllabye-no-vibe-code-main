@@ -47,7 +47,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
 
             <div className="flex gap-4">
               <div className="space-y-2 flex-1">
-                <Label htmlFor="name" className="text-neutral-400">Name *</Label>
+                <Label htmlFor="name" className="text-muted-foreground">Name <span className="text-red-500">*</span></Label>
                 <Input
                   id="name"
                   name="name"
@@ -58,7 +58,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
               </div>
 
               <div className="space-y-2 flex-1">
-                <Label htmlFor="weight" className="text-neutral-400">Weight (%) *</Label>
+                <Label htmlFor="weight" className="text-muted-foreground">Weight (%) <span className="text-red-500">*</span></Label>
                 <Input
                   id="weight"
                   name="weight"
@@ -75,7 +75,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
 
             <div className="flex gap-4">
               <div className="space-y-2 flex-1">
-                <Label htmlFor="drops_allowed" className="text-neutral-400">Drops Allowed</Label>
+                <Label htmlFor="drops_allowed" className="text-muted-foreground">Drops Allowed</Label>
                 <Input
                   id="drops_allowed"
                   name="drops_allowed"
@@ -88,7 +88,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
               </div>
 
               <div className="space-y-2 flex-1">
-                <Label htmlFor="extensions_allowed" className="text-neutral-400">Extensions Allowed</Label>
+                <Label htmlFor="extensions_allowed" className="text-muted-foreground">Extensions Allowed</Label>
                 <Input
                   id="extensions_allowed"
                   name="extensions_allowed"
@@ -104,7 +104,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20"
+                className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30"
               >
                 {isLoading ? "Creating..." : "Add Category"}
               </Button>
@@ -112,7 +112,7 @@ export function AddCategoryForm({ courseId }: AddCategoryFormProps) {
                 type="button"
                 onClick={() => router.back()}
                 disabled={isLoading}
-                className="flex-1 bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20"
+                className="flex-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
               >
                 Cancel
               </Button>

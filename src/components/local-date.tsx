@@ -32,7 +32,7 @@ export function DueDateCell({ date }: { date: string }) {
 
   if (isToday) {
     return (
-      <Badge className="bg-red-500/20 border-red-500 text-red-500 rounded-sm">
+      <Badge className="bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400 rounded-sm">
         Today
       </Badge>
     );

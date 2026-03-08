@@ -20,7 +20,7 @@ export default function Error({
     <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto">
       <h2 className="text-2xl font-bold text-center ">Oh no! Looks like something went wrong!</h2>
       <Link href="/dashboard">
-        <Button className="mt-5 text-xl bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20">Go back to Dashboard</Button>
+        <Button className="mt-5 text-xl bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30">Go back to Dashboard</Button>
       </Link>
     </div>
   )

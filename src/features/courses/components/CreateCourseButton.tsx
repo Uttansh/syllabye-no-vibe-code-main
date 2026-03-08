@@ -11,22 +11,25 @@ export function CreateCourseButton() {
     <>
       {pending ? (
         <div
-          className="fixed inset-0 z-50 flex flex-row items-center justify-center gap-4 bg-background"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 dark:bg-neutral-900 bg-neutral-50"
           aria-live="polite"
           aria-busy="true"
         >
-          <div className="flex flex-row items-center justify-center bg-green-500/10 gap-2 border border-green-500 rounded-lg py-2 px-4"> 
-          <Loader2 className="text-lg animate-spin text-green-500" aria-hidden />
-          <p className="text-lg font-medium text-green-500">
+          <div className="flex flex-row items-center justify-center bg-green-100 dark:bg-green-500/20 gap-2 rounded-lg py-2 px-4"> 
+          <Loader2 className="text-lg animate-spin text-green-800 dark:text-green-400" aria-hidden />
+          <p className="text-lg font-medium text-green-800 dark:text-green-400">
             Analyzing your syllabus...
           </p>
           </div>
+          <p className="text-sm text-muted-foreground">
+            This may take a minute or two.
+          </p>
         </div>
       ) : (
         <Button
         type="submit"
         disabled={pending}
-        className="flex-1 bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20"
+        className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30"
       >
         Create Course
       </Button>

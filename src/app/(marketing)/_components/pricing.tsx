@@ -66,7 +66,7 @@ const plans = [
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="bg-background py-24">
+    <section id="pricing" className="py-24">
       <AnimatedWrapper delay={0.1}>
       <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl mb-4">
         Pricing

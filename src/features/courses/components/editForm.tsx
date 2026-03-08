@@ -56,7 +56,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-neutral-400">Course Name *</Label>
+            <Label htmlFor="name" className="text-muted-foreground">Course Name <span className="text-red-500">*</span></Label>
             <Input
               id="name"
               name="name"
@@ -69,7 +69,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
 
           <div className="flex flex-row gap-2">
             <div className="space-y-2 flex-1">
-              <Label htmlFor="number" className="text-neutral-400">Course Number *</Label>
+              <Label htmlFor="number" className="text-muted-foreground">Course Number <span className="text-red-500">*</span></Label>
               <Input
                 id="number"
                 name="number"
@@ -81,7 +81,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
             </div>
 
             <div className="space-y-2 flex-1">
-              <Label htmlFor="units" className="text-neutral-400">Units *</Label>
+              <Label htmlFor="units" className="text-muted-foreground">Units <span className="text-red-500">*</span></Label>
               <Input
                 id="units"
                 name="units"
@@ -97,7 +97,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="instructors" className="text-neutral-400">Instructors *</Label>
+            <Label htmlFor="instructors" className="text-muted-foreground">Instructors <span className="text-red-500">*</span></Label>
             <Input
               id="instructors"
               name="instructors"
@@ -109,7 +109,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="target_grade" className="text-neutral-400">Target Grade</Label>
+            <Label htmlFor="target_grade" className="text-muted-foreground">Target Grade</Label>
             <Input
               id="target_grade"
               name="target_grade"
@@ -120,7 +120,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="drop_policy_notes" className="text-neutral-400">Drop Policy Notes</Label>
+            <Label htmlFor="drop_policy_notes" className="text-muted-foreground">Drop Policy Notes</Label>
             <Textarea
               id="drop_policy_notes"
               name="drop_policy_notes"
@@ -132,7 +132,7 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="extension_policy_notes" className="text-neutral-400">Extension Policy Notes</Label>
+            <Label htmlFor="extension_policy_notes" className="text-muted-foreground">Extension Policy Notes</Label>
             <Textarea
               id="extension_policy_notes"
               name="extension_policy_notes"
@@ -144,14 +144,14 @@ export function EditCourseForm({ course }: EditCourseFormProps) {
           </div>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={isLoading} className="flex-1 bg-green-500/10 text-green-500 hover:bg-green-500/20 border border-green-500">
+            <Button type="submit" disabled={isLoading} className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
             <Button
               type="button"
               onClick={() => router.back()}
               disabled={isLoading}
-              className="flex-1 bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500"
+              className="flex-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
             >
               Cancel
             </Button>

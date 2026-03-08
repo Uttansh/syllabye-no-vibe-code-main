@@ -21,7 +21,7 @@ export function SyllabusTextarea({ className }: { className?: string }) {
         maxLength={SYLLABUS_MAX_LENGTH}
         placeholder={placeholder}
         className={cn(
-          "w-full rounded-lg bg-gray-100 dark:bg-neutral-900 p-4 pb-8 border border-neutral-200 dark:border-neutral-800 max-w-2xl",
+          "w-full rounded-lg bg-neutral-50 dark:bg-neutral-900 p-4 pb-14 border border-neutral-200 dark:border-neutral-800 max-w-2xl h-120 resize-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none",
           className
         )}
         onChange={(e) => setLength(e.target.value.length)}

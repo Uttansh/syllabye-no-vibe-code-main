@@ -29,7 +29,7 @@ const sections = [
 
 const Footer = () => {
   return (
-    <footer className="bg-background pt-20 pb-12 border-t">
+    <footer className="pt-20 pb-12 border-t">
   <div className="mx-auto max-w-6xl">
     
     {/* Top Section */}

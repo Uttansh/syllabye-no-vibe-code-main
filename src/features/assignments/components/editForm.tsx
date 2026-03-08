@@ -93,7 +93,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
 
           <div className="flex flex-row gap-4">
             <div className="space-y-2 flex-1">
-            <Label htmlFor="name" className="text-neutral-400">Name <span className="text-red-500">*</span></Label>
+            <Label htmlFor="name" className="text-muted-foreground">Name <span className="text-red-500">*</span></Label>
             <Input
               id="name"
               name="name"
@@ -105,7 +105,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
           
 
           <div className="space-y-2">
-            <Label htmlFor="category" className="text-neutral-400">Category <span className="text-red-500">*</span></Label>
+            <Label htmlFor="category" className="text-muted-foreground">Category <span className="text-red-500">*</span></Label>
             <Select
               value={selectedCategoryId}
               onValueChange={setSelectedCategoryId}
@@ -130,7 +130,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
 
           <div className="flex flex-row gap-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="due-date" className="text-neutral-400">Due Date <span className="text-red-500">*</span></Label>
+              <Label htmlFor="due-date" className="text-muted-foreground">Due Date <span className="text-red-500">*</span></Label>
               <Input
                 type="date"
                 id="due-date"
@@ -142,7 +142,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
             </div>
 
             <div className="flex-1 space-y-2">
-              <Label htmlFor="due-time" className="text-neutral-400">Due Time <span className="text-red-500">*</span></Label>
+              <Label htmlFor="due-time" className="text-muted-foreground">Due Time <span className="text-red-500">*</span></Label>
               <Input
                 type="time"
                 id="due-time"
@@ -157,7 +157,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
 
           <div className="flex flex-row gap-4">
             <div className="space-y-2 flex-1">
-              <Label htmlFor="points_possible" className="text-neutral-400">Points Possible</Label>
+              <Label htmlFor="points_possible" className="text-muted-foreground">Points Possible</Label>
               <Input
                 id="points_possible"
                 name="points_possible"
@@ -169,7 +169,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
             </div>
 
             <div className="space-y-2 flex-1">
-              <Label htmlFor="points_earned" className="text-neutral-400">Points Earned</Label>
+              <Label htmlFor="points_earned" className="text-muted-foreground">Points Earned</Label>
               <Input
                 id="points_earned"
                 name="points_earned"
@@ -188,20 +188,20 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
               onCheckedChange={(checked) => setCompleted(checked === true)}
               disabled={isLoading}
             />
-            <Label htmlFor="completed" className="cursor-pointer">
+            <Label htmlFor="completed" className="cursor-pointer text-muted-foreground">
               Mark as complete
             </Label>
           </div>
 
           <div className="flex gap-4 mt-10">
-            <Button type="submit" disabled={isLoading} className="flex-1 bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20">
+            <Button type="submit" disabled={isLoading} className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
             <Button
               type="button"
               onClick={() => router.back()}
               disabled={isLoading}
-              className="flex-1 bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20"
+              className="flex-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
             >
               Cancel
             </Button>

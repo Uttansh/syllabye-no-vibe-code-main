@@ -16,7 +16,7 @@ export default async function NewCoursePage() {
     const canAddCourse = await getCourseAddPermissions();
     return (
     canAddCourse ? (
-    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto">
+    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-2xl w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Create a New Course</h1>
       <Card className="w-full min-w-2xl">
@@ -28,7 +28,7 @@ export default async function NewCoursePage() {
             <div className="flex justify-between gap-4">
             <CreateCourseButton />
             <Link href="/dashboard" className="flex-1">
-              <Button type="button" className="bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20 w-full">
+              <Button type="button" className="bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30 w-full">
                 Cancel
               </Button>
             </Link>
@@ -37,15 +37,18 @@ export default async function NewCoursePage() {
          
         </CardContent>
       </Card>
+      <p className="text-xs text-muted-foreground mt-2">
+        AI results may be inaccurate. Please review the results and make any necessary adjustments.
+      </p>
       </div>
     </div>
     ) : (
-    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto">
+    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-2xl w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-4xl font-bold">You have reached your course limit 😔</h1>
       </div>
       <Link href="/#pricing">
-      <Button className="mt-5 text-xl bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20 w-full">Upgrade to add more courses</Button>
+      <Button className="mt-5 text-xl bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30 w-full">Upgrade to add more courses</Button>
       </Link>
     </div>
     )

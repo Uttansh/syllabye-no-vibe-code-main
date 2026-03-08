@@ -73,17 +73,17 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-2xl font-bold">Add Assignment</h1>
-    <Card>
+    <Card className="border-2 border-border rounded-md shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="text-red-800 px-4 py-3 rounded bg-red-50 border border-red-200">
+            <div className="text-red-800 px-4 py-3 rounded bg-red-50 border-2 border-red-200">
               {error}
             </div>
           )}
         <div className="flex gap-4">
           <div className="space-y-2 flex-1">
-            <Label htmlFor="name">Name *</Label>
+            <Label htmlFor="name" className="text-muted-foreground">Name <span className="text-red-500">*</span></Label>
             <Input
               id="name"
               name="name"
@@ -94,7 +94,7 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category *</Label>
+            <Label htmlFor="category" className="text-muted-foreground">Category <span className="text-red-500">*</span></Label>
             <Select
               value={selectedCategoryId}
               onValueChange={setSelectedCategoryId}
@@ -117,7 +117,7 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
 
           <FieldGroup className="flex-row gap-4">
             <Field className="flex-1">
-              <FieldLabel htmlFor="due-date">Due Date *</FieldLabel>
+              <FieldLabel htmlFor="due-date" className="text-muted-foreground">Due Date <span className="text-red-500">*</span></FieldLabel>
               <Input
                 type="date"
                 id="due-date"
@@ -129,7 +129,7 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
             </Field>
 
             <Field className="w-32 flex-1">
-              <FieldLabel htmlFor="due-time">Due Time *</FieldLabel>
+              <FieldLabel htmlFor="due-time" className="text-muted-foreground">Due Time <span className="text-red-500">*</span></FieldLabel>
               <Input
                 type="time"
                 id="due-time"
@@ -143,7 +143,7 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
           </FieldGroup>
 
           <div className="space-y-2 flex-1">
-            <Label htmlFor="points_possible">Points Possible</Label>
+            <Label htmlFor="points_possible" className="text-muted-foreground">Points Possible</Label>
             <Input
               id="points_possible"
               name="points_possible"
@@ -153,12 +153,11 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
               disabled={isLoading}
             />
           </div>
-                <hr className="my-6" />
           <div className="flex gap-4">
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-green-500/10 border text-green-500 border-green-500 hover:bg-green-500/20"
+              className="flex-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30"
             >
               {isLoading ? "Creating..." : "Add Assignment"}
             </Button>
@@ -166,7 +165,7 @@ export function AddAssignmentForm({ courseId, categories }: AddAssignmentFormPro
               type="button"
               onClick={() => router.back()}
               disabled={isLoading}
-              className="flex-1 bg-red-500/10 border text-red-500 border-red-500 hover:bg-red-500/20"
+              className="flex-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30"
             >
               Cancel
             </Button>

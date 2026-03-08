@@ -13,16 +13,16 @@ export function Hero() {
       <AnimatedWrapper delay={0.1}>
       <h1 className="text-2xl md:text-3xl font-semibold leading-none max-w-lg scroll-mt-20">
         One{" "}
-        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 dark:bg-blue-500/10 rounded-lg align-middle mb-2">
-          <Target className="dark:text-blue-600 text-white" size={20} />
+        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-500/20 rounded-lg align-middle mb-2">
+          <Target className="dark:text-blue-400  text-blue-500" size={20} />
         </span>{" "}
         source of truth for all your{" "}
-        <span className="inline-flex items-center justify-center w-8 h-8 bg-emerald-500 dark:bg-emerald-500/10 rounded-lg align-middle mb-2">
-          <BarChart3 className="dark:text-emerald-600 text-white" size={20} />
+        <span className="inline-flex items-center justify-center w-8 h-8 bg-emerald-100 dark:bg-emerald-500/20 rounded-lg align-middle mb-2">
+          <BarChart3 className="dark:text-emerald-400 text-emerald-500" size={20} />
         </span>{" "}
         assignment deadlines{" "}
-        <span className="inline-flex items-center justify-center w-8 h-8 bg-orange-500 dark:bg-orange-500/10 rounded-lg align-middle mb-2">
-          <Clock className="dark:text-orange-600 text-white" size={20} />
+        <span className="inline-flex items-center justify-center w-8 h-8 bg-orange-100 dark:bg-orange-500/20 rounded-lg align-middle mb-2">
+          <Clock className="dark:text-orange-400 text-orange-500" size={20} />
         </span>{" "}
         so you never miss a due date
       </h1>
@@ -36,14 +36,14 @@ export function Hero() {
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.3}>
       <SignedOut>
-      <Button asChild className="mt-10 text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
         <Link href="/sign-in">
           Get Started Free <CircleChevronRight strokeWidth={3} size={28}/>
         </Link>
       </Button>
       </SignedOut>
       <SignedIn>
-      <Button asChild className="mt-10 text-lg p-5 bg-foreground hover:cursor-pointer text-background hover:bg-secondary-foreground hover:text-background rounded-xl">
+      <Button asChild className="mt-10 text-lg p-5 bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 hover:cursor-pointer rounded-xl">
         <Link href="/dashboard">
           Go To Dashboard <CircleChevronRight strokeWidth={3} size={28}/>
         </Link>

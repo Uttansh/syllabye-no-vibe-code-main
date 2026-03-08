@@ -30,7 +30,7 @@ export default function SevenDayCalendarWrapper({
 
   if (days === null) {
     return (
-      <div className="flex h-full w-full min-h-[120px] items-center justify-center rounded-xl border bg-card p-4">
+      <div className="flex h-full w-full min-h-[120px] items-center justify-center rounded-md border bg-card p-4">
         <div className="grid min-w-[560px] grid-cols-7 gap-0">
           {Array.from({ length: 7 }).map((_, i) => (
             <div

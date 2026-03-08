@@ -13,7 +13,7 @@ export default function PolicyCard({
     <div className="flex flex-col h-full min-h-0 gap-4">
 
       {/* Drop Policy */}
-      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-white/10 bg-card rounded-xl overflow-hidden">
+      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border-2 border-border bg-card rounded-md overflow-hidden">
         <div className="mb-2 flex-shrink-0">
           <h3 className="text-2xl mb-2 font-semibold">Drop Policy</h3>
         </div>
@@ -30,7 +30,7 @@ export default function PolicyCard({
       </div>
 
       {/* Extension Policy */}
-      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border border-white/10 bg-card rounded-xl overflow-hidden">
+      <div className="w-full flex-1 min-h-0 flex flex-col pt-4 px-4 border-2 border-border bg-card rounded-md overflow-hidden">
         <div className="mb-2 flex-shrink-0">
           <h3 className="text-2xl mb-2 font-semibold">Extension Policy</h3>
         </div>
