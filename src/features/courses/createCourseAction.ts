@@ -1,6 +1,7 @@
 "use server";
 
 import Groq from "groq-sdk";
+import Anthropic from "@anthropic-ai/sdk";
 import { redirect } from "next/navigation";
 import { createClerkSupabaseClient } from "@/lib/supabase/server";
 import { auth } from "@clerk/nextjs/server";
@@ -50,26 +51,17 @@ const ParsedSyllabusSchema = z.object({
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
-//create course action
-export async function analyzeSyllabusAction(formData: FormData) {
-  await rateLimit("analyzeSyllabus", 2, 1);
+const CLAUDE_SYLLABUS_MODEL =
+  process.env.ANTHROPIC_SYLLABUS_MODEL ?? "claude-sonnet-4-20250514";
 
+async function analyzeSyllabusInternal(
+  formData: FormData,
+  userId: string,
+  fetchCompletion: (prompt: string) => Promise<string>
+) {
   const syllabus = formData.get("syllabus") as string;
   const offset = (formData.get("timezone") as string) || "+00:00";
   const timezoneIana = (formData.get("timezone_iana") as string) || "";
-  if (!syllabus || syllabus.length < 50) {
-    throw new Error("Missing or invalid syllabus");
-  }
-  if (syllabus.length > SYLLABUS_MAX_LENGTH) {
-    throw new Error(
-      `Syllabus is too long. Maximum ${SYLLABUS_MAX_LENGTH.toLocaleString()} characters allowed.`
-    );
-  }
-
-  const { userId } = await auth();
-  if (!userId) throw new Error("User not authenticated");
-  const canAddCourse = await getCourseAddPermissions();
-  if (!canAddCourse) throw new Error("You have reached your course limit.");
 
   const prompt = `You are a precise course syllabus parser. Extract structured information and return ONLY valid JSON matching this schema:
 
@@ -150,14 +142,7 @@ ${syllabus}
 
 Return the JSON now:`;
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    temperature: 0,
-    response_format: { type: "json_object" },
-    messages: [{ role: "user", content: prompt }],
-  });
-
-  const content = completion.choices[0]?.message?.content;
+  const content = await fetchCompletion(prompt);
   if (!content) throw new Error("LLM returned no content");
 
   let parsed: unknown;
@@ -271,4 +256,76 @@ Return the JSON now:`;
 
   revalidatePath("/dashboard");
   redirect(`/courses/${course.id}`);
+}
+
+async function groqFetchCompletion(prompt: string): Promise<string> {
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+    response_format: { type: "json_object" },
+    messages: [{ role: "user", content: prompt }],
+  });
+  const content = completion.choices[0]?.message?.content ?? undefined;
+  if (!content) throw new Error("LLM returned no content");
+  return content;
+}
+
+async function claudeFetchCompletion(prompt: string): Promise<string> {
+  const anthropic = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY!,
+  });
+  const message = await anthropic.messages.create({
+    model: CLAUDE_SYLLABUS_MODEL,
+    max_tokens: 4096,
+    temperature: 0,
+    messages: [{ role: "user", content: prompt }],
+  });
+  const textBlock = message.content.find(
+    (block): block is { type: "text"; text: string } => block.type === "text"
+  );
+  const content = textBlock?.text;
+  if (!content) throw new Error("LLM returned no content");
+  return content;
+}
+
+export async function analyzeSyllabusAction(formData: FormData) {
+  await rateLimit("analyzeSyllabus", 2, 1);
+
+  const syllabus = formData.get("syllabus") as string;
+  if (!syllabus || syllabus.length < 50) {
+    throw new Error("Missing or invalid syllabus");
+  }
+  if (syllabus.length > SYLLABUS_MAX_LENGTH) {
+    throw new Error(
+      `Syllabus is too long. Maximum ${SYLLABUS_MAX_LENGTH.toLocaleString()} characters allowed.`
+    );
+  }
+
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
+  const canAddCourse = await getCourseAddPermissions();
+  if (!canAddCourse) throw new Error("You have reached your course limit.");
+
+  return analyzeSyllabusInternal(formData, userId, groqFetchCompletion);
+}
+
+export async function analyzeSyllabusWithClaudeAction(formData: FormData) {
+  await rateLimit("analyzeSyllabus", 2, 1);
+
+  const syllabus = formData.get("syllabus") as string;
+  if (!syllabus || syllabus.length < 50) {
+    throw new Error("Missing or invalid syllabus");
+  }
+  if (syllabus.length > SYLLABUS_MAX_LENGTH) {
+    throw new Error(
+      `Syllabus is too long. Maximum ${SYLLABUS_MAX_LENGTH.toLocaleString()} characters allowed.`
+    );
+  }
+
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
+  const canAddCourse = await getCourseAddPermissions();
+  if (!canAddCourse) throw new Error("You have reached your course limit.");
+
+  return analyzeSyllabusInternal(formData, userId, claudeFetchCompletion);
 }

@@ -20,6 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment variables
+
+Create a `.env.local` file in the project root with:
+
+- **ANTHROPIC_API_KEY** (required for creating courses): Used by the create-course flow to analyze syllabi via Claude. Get a key from the [Anthropic Console](https://console.anthropic.com/).
+- **GROQ_API_KEY** (optional backup): If you want to use the Groq-based syllabus analysis action instead, set this and call `analyzeSyllabusAction` (e.g. by wiring it to the form). The default create-course form uses Claude.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
