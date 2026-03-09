@@ -48,13 +48,12 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
 
   const sidebarContent = (
     //increase text size of headings and links in the sidebar
-    <div className="flex flex-col bg-card rounded-md border-2 border-border h-full md:h-auto w-full lg:ml-4 lg:my-4">
-      
+    <div className="flex flex-col bg-card rounded-md border-2 border-border h-full xl:h-auto w-full xl:ml-4 xl:my-4">
       {/* Header */}
       <div className="px-4 py-3 border-b-2 border-border">
         <Link
           href="/dashboard"
-          className="text-2xl font-semibold hover:underline underline md:no-underline"
+          className="text-2xl font-semibold hover:underline underline xl:no-underline"
           onClick={() => setMobileOpen(false)}
         >
           My Dashboard
@@ -278,13 +277,14 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
         </DialogContent>
       </Dialog>
 
-      {/* Desktop: sidebar in flex flow */}
-      <div className="hidden md:flex w-full md:min-w-0 h-screen">
+      {/* Desktop: sidebar in flex flow (xl only) */}
+      <div className="hidden xl:flex w-full xl:min-w-0 h-screen">
         {sidebarContent}
       </div>
 
-      {/* Mobile */}
-<div className="md:hidden">
+      {/* Mobile (below xl) */}
+
+<div className="xl:hidden">
   {/* Hamburger */}
   <div className="fixed top-4 left-4 z-50 flex items-center gap-2">
     <Button
