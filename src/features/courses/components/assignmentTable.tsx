@@ -63,6 +63,7 @@ export default function TableCourseAssignments({
 
           {/* Table */}
           <ScrollArea className="h-full flex-1 min-h-0">
+            <div className="overflow-x-auto">
             <table className="table-fixed w-full text-sm">
               <tbody className="[&_tr:last-child]:border-0">
                 {assignments.length === 0 ? (
@@ -186,6 +187,7 @@ export default function TableCourseAssignments({
                 )}
               </tbody>
             </table>
+            </div>
           </ScrollArea>
         </CardContent>
       </Card>

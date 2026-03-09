@@ -56,14 +56,14 @@ return (
         <table className="w-full text-md">
         <thead className="">
             <tr>
-            <th className="text-left py-4 font-medium">Feature</th>
-            <th className="text-left py-4 font-medium">Syllabye</th>
-            <th className="text-left py-4 font-medium">Traditional Tools</th>
+            <th className="text-left py-4 text-sm md:text-lg">Feature</th>
+            <th className="text-left py-4 text-sm md:text-lg">Syllabye</th>
+            <th className="text-left py-4 text-sm md:text-lg">Traditional Tools</th>
             </tr>
         </thead>
         <tbody>
             {rows.map((row) => (
-            <tr key={row.feature} className="border-t">
+            <tr key={row.feature} className="border-t text-sm md:text-lg">
                 <td className="py-4">{row.feature}</td>
                 <td className="py-4">{row.us}</td>
                 <td className="py-4 text-gray-500">{row.them}</td>

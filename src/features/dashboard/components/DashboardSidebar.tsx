@@ -48,16 +48,16 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
 
   const sidebarContent = (
     //increase text size of headings and links in the sidebar
-    <div className="flex flex-col bg-card ml-4 rounded-md border-2 border-border my-4 w-full ">
+    <div className="flex flex-col bg-card rounded-md border-2 border-border h-full md:h-auto w-full lg:ml-4 lg:my-4">
       
       {/* Header */}
       <div className="px-4 py-3 border-b-2 border-border">
         <Link
           href="/dashboard"
-          className="text-2xl font-semibold hover:underline"
+          className="text-2xl font-semibold hover:underline underline md:no-underline"
           onClick={() => setMobileOpen(false)}
         >
-          Syllabye 👋
+          My Dashboard
         </Link>
       </div>
   
@@ -283,48 +283,50 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
         {sidebarContent}
       </div>
 
-      {/* Mobile: Hamburger + overlay sidebar */}
-      <div className="md:hidden">
-        <div className="fixed top-4 left-4 z-50">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileOpen(true)}
-            className="rounded-md bg-muted dark:bg-white/10 dark:border dark:border-white/20"
-          >
-            <Menu size={24} />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </div>
-        {mobileOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-black/50"
-            onClick={() => setMobileOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-        <aside
-          className={`
-            fixed top-0 left-0 z-40 h-full w-[260px] flex flex-col
-            bg-background border-r border-white/10
-            transition-transform duration-200 ease-in-out
-            ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-          `}
-        >
-          <div className="absolute top-4 right-4 z-10">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-md"
-            >
-              <X size={24} />
-              <span className="sr-only">Close menu</span>
-            </Button>
-          </div>
-          {sidebarContent}
-        </aside>
-      </div>
+      {/* Mobile */}
+<div className="md:hidden">
+  {/* Hamburger */}
+  <div className="fixed top-4 left-4 z-50 flex items-center gap-2">
+    <Button
+      size="icon"
+      onClick={() => setMobileOpen(true)}
+      className="rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-500/20 text-neutral-800 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-500/30"
+    >
+      <Menu size={22} />
+    </Button>
+    <h1 className="text-2xl font-semibold ml-2">Syllabye 👋</h1>
+  </div>
+
+
+  {/* Overlay */}
+  {mobileOpen && (
+    <div
+      className="fixed inset-0 bg-black/40 z-40"
+      onClick={() => setMobileOpen(false)}
+    />
+  )}
+
+  {/* Sliding Sidebar */}
+  <aside
+    className={cn(
+      "fixed top-0 left-0 z-50 h-full w-[280px] p-4 transition-transform duration-300",
+      mobileOpen ? "translate-x-0" : "-translate-x-full"
+    )}
+  >
+    {/* Close button */}
+    <div className="absolute right-5 top-5">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setMobileOpen(false)}
+      >
+        <X size={22} />
+      </Button>
+    </div>
+
+    {sidebarContent}
+  </aside>
+</div>
     </>
   );
 }

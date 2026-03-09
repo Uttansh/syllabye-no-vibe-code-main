@@ -26,11 +26,11 @@ export default async function DashboardPage() {
         </div>
 
         {/* Row 2 — Progress Chart (full width, courses moved to sidebar) */}
-        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
+        <div className="min-w-0 min-h-0 col-span-4 md:col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
           {/* <DashboardProgressChart data={progressData} /> */}
           <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=header" className="text-sm text-muted-foreground text-center hover:underline hover:cursor-pointer">What should go here? Suggestions welcome!</Link>
         </div>
-        <div className="min-w-0 min-h-0 col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
+        <div className="min-w-0 min-h-0 h-60 sm:h-auto col-span-4 md:col-span-2 rounded-md border-2 border-border bg-neutral-100 dark:bg-neutral-900 flex flex-col items-center justify-center">
           {/* <DashboardProgressChart data={progressData} /> */}
           <Link target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=header" className="text-sm text-muted-foreground text-center hover:underline hover:cursor-pointer">What should go here? Suggestions welcome!</Link>
         </div>

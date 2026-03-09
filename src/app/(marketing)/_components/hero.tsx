@@ -83,7 +83,7 @@ export function Hero() {
         </p>
       </div> */}
       <AnimatedWrapper delay={0.4}>
-      <div className="mt-14 w-full">
+      <div className="mt-14 w-full hidden md:block">
         <HeroAssignmentsDemo />
       </div>
       </AnimatedWrapper>

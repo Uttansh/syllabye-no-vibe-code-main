@@ -40,8 +40,11 @@ export default function TableCourseCategories({
 
           {/* Header */}
           <div className="flex-shrink-0 flex items-center justify-between px-6 py-3 border-b-2">
-            <h3 className="text-2xl font-semibold">
+            <h3 className="text-2xl font-semibold hidden md:block">
               Grading Categories
+            </h3>
+            <h3 className="text-2xl font-semibold block md:hidden">
+              Categories
             </h3>
 
             <Link href={`/categories/add/${courseId}`}>

@@ -46,7 +46,7 @@ export default async function CourseDashboardPage(
           <div className="w-full flex-1 min-h-0 flex flex-col text-center items-center justify-center pt-4 px-4 border-2 border-border bg-neutral-100 dark:bg-neutral-900 rounded-md overflow-hidden">
             <div className="mb-2 flex-shrink-0">
               <p className="text-sm text-muted-foreground">Grade Calculator (coming soon)</p>
-            </div>W
+            </div>
           </div>
         </div>
 

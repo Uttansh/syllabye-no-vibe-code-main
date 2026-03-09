@@ -61,7 +61,7 @@ return (
   <Accordion type="single" collapsible className="w-full">
       {faqs.map((faq, index) => (
       <AccordionItem key={index} value={`item-${index}`}>
-          <AccordionTrigger className="text-md">
+          <AccordionTrigger className="text-md md:text-lg">
           {faq.question}
           </AccordionTrigger>
           <AccordionContent className="text-md text-gray-400">
