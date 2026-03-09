@@ -20,6 +20,13 @@ import {
 import { MoreHorizontal, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { deleteCourse } from "@/features/courses/actions";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export interface SidebarCourse {
   id: string;
@@ -36,6 +43,7 @@ const FEEDBACK_URL =
 
 export default function DashboardSidebar({ courses }: { courses: SidebarCourse[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [comingSoonOpen, setComingSoonOpen] = useState(false);
   const pathname = usePathname();
 
   const sidebarContent = (
@@ -183,31 +191,38 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
           </h3>
 
           <div className="flex flex-col">
-          <Link
-              target="_blank"
-              href={FEEDBACK_URL}
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition"
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
               <span>Canvas</span>
-            </Link>
+            </button>
 
-            <Link
-              target="_blank"
-              href={FEEDBACK_URL}
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition"
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
               <span>Gradescope</span>
-            </Link>
+            </button>
 
-            <Link
-              href={REPORT_URL}
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition"
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
               <span>Ed</span>
-            </Link>
+            </button>
           </div>
         </div>
       </ScrollArea>
@@ -244,6 +259,25 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
 
   return (
     <>
+      <Dialog open={comingSoonOpen} onOpenChange={setComingSoonOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Coming Soon</DialogTitle>
+            <DialogDescription>
+              Feature is coming soon! Request a feature{" "}
+              <Link
+                href={FEEDBACK_URL}
+                target="_blank"
+                className="underline hover:no-underline"
+              >
+                here
+              </Link>
+            </DialogDescription>
+          </DialogHeader>
+          <Button onClick={() => setComingSoonOpen(false)}>Got it</Button>
+        </DialogContent>
+      </Dialog>
+
       {/* Desktop: sidebar in flex flow */}
       <div className="hidden md:flex w-full md:min-w-0 h-screen">
         {sidebarContent}
