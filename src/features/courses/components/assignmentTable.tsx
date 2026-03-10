@@ -23,7 +23,7 @@ interface TableCourseAssignmentsProps {
   assignments: {
     id: string;
     name: string;
-    dueDate: string;
+    dueDate: string | null;
     completed: boolean;
   }[];
   courseId: string;

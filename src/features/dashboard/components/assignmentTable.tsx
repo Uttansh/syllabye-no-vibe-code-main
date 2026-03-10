@@ -24,7 +24,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 interface Assignment {
   id: string;
   name: string;
-  dueDate: string;
+  dueDate: string | null;
   courseName: string;
   courseNumber: string;
 }

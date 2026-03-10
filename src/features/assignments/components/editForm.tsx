@@ -22,7 +22,7 @@ interface EditAssignmentFormProps {
   assignment: {
     id: string;
     name: string;
-    dueDate: string;
+    dueDate: string | null;
     categoryId?: string;
     pointsPossible: number | null;
     pointsEarned: number | null;
@@ -31,7 +31,8 @@ interface EditAssignmentFormProps {
   categories: Array<{ id: string; name: string }>;
 }
 
-function parseInitialDate(iso: string) {
+function parseInitialDate(iso: string | null): { dateStr: string; timeStr: string } {
+  if (!iso) return { dateStr: "", timeStr: "23:59:00" };
   const d = new Date(iso);
   const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   const timeStr = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`;
@@ -59,14 +60,12 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
     setIsLoading(true);
     setError(null);
 
-    if (!selectedDate) {
-      setError("Due date is required");
-      setIsLoading(false);
-      return;
-    }
-
     const formData = new FormData(e.currentTarget);
-    formData.set("due_date", toPostgresTimestamptzString(selectedDate, selectedTime));
+    if (selectedDate) {
+      formData.set("due_date", toPostgresTimestamptzString(selectedDate, selectedTime));
+    } else {
+      formData.set("due_date", "");
+    }
     formData.set("category_id", selectedCategoryId);
     formData.set("completed", completed ? "true" : "false");
 
@@ -132,27 +131,25 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
 
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="due-date" className="text-muted-foreground">Due Date <span className="text-red-500">*</span></Label>
+              <Label htmlFor="due-date" className="text-muted-foreground">Due Date</Label>
               <Input
                 type="date"
                 id="due-date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                required
                 disabled={isLoading}
                 className="text-green"
               />
             </div>
 
             <div className="flex-1 space-y-2">
-              <Label htmlFor="due-time" className="text-muted-foreground">Due Time <span className="text-red-500">*</span></Label>
+              <Label htmlFor="due-time" className="text-muted-foreground">Due Time</Label>
               <Input
                 type="time"
                 id="due-time"
                 step="1"
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
-                required
                 disabled={isLoading}
               />
             </div>

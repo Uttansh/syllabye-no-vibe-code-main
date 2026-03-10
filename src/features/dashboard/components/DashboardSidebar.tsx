@@ -255,7 +255,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
               <span>Text</span>
             </button>
 
-            <button
+            {/* <button
               type="button"
               onClick={() => {
                 setComingSoonOpen(true);
@@ -275,7 +275,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
               <span>WhatsApp</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </ScrollArea>

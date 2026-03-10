@@ -49,14 +49,19 @@ export async function updateAssignment(id: string, formData: FormData) {
   const supabase = await createClerkSupabaseClient();
 
   const name = String(formData.get("name") ?? "").trim();
-  const due_date = String(formData.get("due_date") ?? "");
+  const due_date_raw = String(formData.get("due_date") ?? "").trim();
   const points_possible_str = String(formData.get("points_possible") ?? "").trim();
   const points_earned_str = String(formData.get("points_earned") ?? "").trim();
   const category_id = String(formData.get("category_id") ?? "").trim();
   const completed = formData.get("completed") === "true";
 
-  if (!name || !due_date) throw new Error("Name and due date are required");
-  if (!/^\d{4}-\d{2}-\d{2}\s/.test(due_date)) throw new Error("Invalid due date format");
+  if (!name) throw new Error("Name is required");
+  const due_date: string | null = due_date_raw
+    ? (() => {
+        if (!/^\d{4}-\d{2}-\d{2}\s/.test(due_date_raw)) throw new Error("Invalid due date format");
+        return due_date_raw;
+      })()
+    : null;
 
   const points_possible =
     points_possible_str === "" ? null : Number(points_possible_str);
@@ -68,7 +73,7 @@ export async function updateAssignment(id: string, formData: FormData) {
 
   const updatePayload: {
     name: string;
-    due_date: string;
+    due_date: string | null;
     points_possible: number | null;
     points_earned: number | null;
     category_id: string;

@@ -9,12 +9,14 @@ import { useState, useEffect } from "react";
  * Otherwise shows the weekday and month/day.
  */
 
-export function DueDateCell({ date }: { date: string }) {
+export function DueDateCell({ date }: { date: string | null }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (!date) return <span className="text-muted-foreground">N/A</span>;
 
   if (!mounted) {
     return (
@@ -51,12 +53,14 @@ export function DueDateCell({ date }: { date: string }) {
 }
 
 
-export function DueTimeCell({ date }: { date: string }) {
+export function DueTimeCell({ date }: { date: string | null }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (!date) return <span className="text-muted-foreground">N/A</span>;
 
   if (!mounted) {
     return <span className="inline-block w-12 h-4 animate-pulse bg-muted rounded" />;

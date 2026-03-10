@@ -26,7 +26,7 @@ const ParsedSyllabusSchema = z.object({
   categories: z.array(
     z.object({
       name: z.string().min(1),
-      weight: z.number().min(0).max(100),
+      weight: z.preprocess((val) => (val == null ? 0 : val), z.number().min(0).max(100)),
       is_exam: z.boolean(),
       is_mandatory: z.boolean(),
       extensions_allowed: z.number().nullable(),
@@ -127,13 +127,15 @@ CRITICAL FORMATTING RULES:
    - Set completed, used_extension, used_drop to false
    - Use null for unknown/missing values
    - Set extensions_allowed and drops_allowed to 0 if not mentioned
-   - Set due_dates to 11:59pm if not mentioned
+   - Set due_date to null if no date is explicitly mentioned. Do NOT invent or guess dates.
 
 8. **Return Format**: Return ONLY the raw JSON object. NO markdown code blocks, NO backticks, NO explanations.
 
 ADDITIONAL INSTRUCTIONS:
 - Extract every single assignment and category mentioned in the syllabus. Do not make up any assignments or categories. Everything including labs, readings, in-class activities, check-ins, etc. should be included.
-- Use the current year for due dates if one is not mentioned.
+- Only extract dates that are explicitly stated in the syllabus. If an assignment has no date mentioned at all, use null.
+- Use the current year for due dates if a year is not mentioned (e.g., "March 15" without year → use current year).
+- Do your best to extract everything mentioned in the syllabus please.
 
 SYLLABUS TEXT:
 """
@@ -209,7 +211,7 @@ Return the JSON now:`;
   const categoryInserts = validated.categories.map((cat) => ({
     course_id: course.id,
     name: cat.name,
-    weight: cat.weight,
+    weight: cat.weight ?? 0,
     is_exam: cat.is_exam,
     is_mandatory: cat.is_mandatory,
     extensions_allowed: cat.extensions_allowed ?? 0,

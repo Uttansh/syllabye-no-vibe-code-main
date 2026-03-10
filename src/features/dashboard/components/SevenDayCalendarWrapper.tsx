@@ -21,7 +21,7 @@ export default function SevenDayCalendarWrapper({
     const computed: SevenDayItem[] = sevenDays.map((dayDate) => {
       const label = isSameDay(dayDate, now) ? "Today" : format(dayDate, "EEE d");
       const dayAssignments = assignments.filter((a) =>
-        isSameDay(new Date(a.due_date), dayDate)
+        a.due_date && isSameDay(new Date(a.due_date), dayDate)
       );
       return { date: dayDate, label, assignments: dayAssignments };
     });

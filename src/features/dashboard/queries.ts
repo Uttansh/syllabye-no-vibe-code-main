@@ -65,7 +65,7 @@ export async function getDashboardData() {
             assignmentsLeft: incomplete.length,
             units: course.units,
             hasDueSoon: incomplete.some(
-                (a: any) => new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
+                (a: any) => a.due_date && new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
             ),
         };
     });
@@ -88,6 +88,7 @@ export async function getDashboardData() {
     const calendarWindowEnd = addDays(now, 10);
     const calendarAssignments = allAssignments
         .filter((a: any) => {
+            if (!a.due_date) return false;
             const due = new Date(a.due_date);
             return due >= calendarWindowStart && due <= calendarWindowEnd;
         })
@@ -159,7 +160,7 @@ export async function getCourses() {
             number: course.number,
             assignmentsLeft: incomplete.length,
             hasDueSoon: incomplete.some(
-                (a: any) => new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
+                (a: any) => a.due_date && new Date(a.due_date) >= now && new Date(a.due_date) <= next24Hours
             ),
         };
     });
@@ -253,6 +254,7 @@ export async function getAssignmentsPerDayNextTwoWeeks(): Promise<{
     const counts = days.map(() => 0);
 
     for (const row of assignments_data ?? []) {
+        if (!row.due_date) continue;
         const due = new Date(row.due_date);
         const dayIndex = days.findIndex((d) => isSameDay(d, due));
         if (dayIndex >= 0) counts[dayIndex] += 1;

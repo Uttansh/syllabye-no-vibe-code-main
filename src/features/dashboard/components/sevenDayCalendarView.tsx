@@ -6,7 +6,7 @@ import { Badge, CheckCircle, XCircle } from "lucide-react";
 export type SevenDayAssignment = {
   id: string;
   name: string;
-  due_date: string;
+  due_date: string | null;
   completed: boolean;
   courseName?: string;
   courseNumber?: string;
