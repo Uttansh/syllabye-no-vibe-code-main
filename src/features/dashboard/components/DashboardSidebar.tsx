@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { CheckoutButton } from "@clerk/nextjs/experimental";
 import { Bug, LogOut, Menu, MessageCircle, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { dark } from "@clerk/themes";
@@ -17,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, TriangleAlert } from "lucide-react";
+import { MoreHorizontal, Sparkles, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { deleteCourse } from "@/features/courses/actions";
 import {
@@ -224,15 +225,84 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
             </button>
           </div>
         </div>
+
+        {/* Notifications */}
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-muted-foreground uppercase tracking-wide mb-1 mt-2 mx-2">
+            Remind me via
+          </h3>
+
+          <div className="flex flex-col">
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
+            >
+              <span>Email</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
+            >
+              <span>Text</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
+            >
+              <span>Telegram</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setComingSoonOpen(true);
+                setMobileOpen(false);
+              }}
+              className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
+            >
+              <span>WhatsApp</span>
+            </button>
+          </div>
+        </div>
       </ScrollArea>
       {/* Bottom Profile */}
-      <div className="flex justify-between items-center gap-3 rounded-md px-5 py-4">
+      <div className="flex flex-col gap-2 px-5 py-4">
+        <SignedIn>
+          <CheckoutButton
+            planId="cplan_3A0uQKXN5ZI5Do2dUfSnmEtnULK"
+            planPeriod="annual"
+            newSubscriptionRedirectUrl="/dashboard"
+          >
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="group flex items-center justify-between text-md w-full px-3 py-2 rounded-md bg-violet-100 text-violet-800 hover:bg-violet-200 dark:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/30 transition-colors"
+            >
+              <span>Upgrade</span>
+              <Sparkles size={16} className="transition-transform group-hover:rotate-12" />
+            </button>
+          </CheckoutButton>
+        </SignedIn>
         <SignOutButton>
-            <Button className="text-md w-full px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">
-              Logout
-              <LogOut size={18} />
-            </Button>
-          </SignOutButton>
+          <Button className="text-md w-full px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">
+            Logout
+            <LogOut size={18} />
+          </Button>
+        </SignOutButton>
       </div>
       <div className="border-t-2 border-border py-2 px-4">
         <div className="flex justify-between items-center gap-3 rounded-md px-2 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition-colors">

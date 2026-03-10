@@ -91,7 +91,7 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
             </div>
           )}
 
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="space-y-2 flex-1">
             <Label htmlFor="name" className="text-muted-foreground">Name <span className="text-red-500">*</span></Label>
             <Input
@@ -104,8 +104,9 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
           </div>
           
 
-          <div className="space-y-2">
-            <Label htmlFor="category" className="text-muted-foreground">Category <span className="text-red-500">*</span></Label>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 space-y-2">
+            <Label htmlFor="category" className="text-muted-foreground ">Category <span className="text-red-500">*</span></Label>
             <Select
               value={selectedCategoryId}
               onValueChange={setSelectedCategoryId}
@@ -127,8 +128,9 @@ export function EditAssignmentForm({ assignment, categories }: EditAssignmentFor
             </Select>
           </div>
           </div>
+          </div>
 
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 space-y-2">
               <Label htmlFor="due-date" className="text-muted-foreground">Due Date <span className="text-red-500">*</span></Label>
               <Input

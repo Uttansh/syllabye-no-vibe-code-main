@@ -19,7 +19,7 @@ export default async function NewCoursePage() {
     <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-2xl w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Create a New Course</h1>
-      <Card className="w-full min-w-2xl">
+      <Card className="w-full">
         <CardContent>
           
           <form action={analyzeSyllabusAction} className="space-y-4">

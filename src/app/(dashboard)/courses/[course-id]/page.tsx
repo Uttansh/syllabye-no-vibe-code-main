@@ -22,45 +22,46 @@ export default async function CourseDashboardPage(
   return (
     <div className="h-full flex flex-col gap-4 min-h-0 overflow-hidden">
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-3 gap-4 w-full h-full flex-1 min-h-0">
+      <div className="grid grid-cols-1 2xl:grid-cols-2 2xl:grid-rows-3 gap-4 w-full h-full flex-1 min-h-0">
 
-        {/* LEFT — Assignments (spans both rows) */}
-        <div className="lg:row-span-3 min-w-0 min-h-0 flex flex-col">
-          <TableCourseAssignments
-            assignments={assignments}
-            courseId={courseId}
-            courseName={course.name}
-            courseCode={course.number}
-          />
-        </div>
+  {/* LEFT — Assignments */}
+  <div className="2xl:row-span-3 min-w-0 min-h-0 flex flex-col">
+    <TableCourseAssignments
+      assignments={assignments}
+      courseId={courseId}
+      courseName={course.name}
+      courseCode={course.number}
+    />
+  </div>
 
-        {/* TOP RIGHT — Categories */}
-        <div className="min-w-0 min-h-0 flex flex-col lg:row-span-1">
-          <TableCourseCategories
-            categories={categories}
-            courseId={courseId}
-          />
-        </div>
+  {/* Categories */}
+  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+    <TableCourseCategories
+      categories={categories}
+      courseId={courseId}
+    />
+  </div>
 
-        <div className="min-w-0 min-h-0 flex flex-col lg:row-span-1">
-          <div className="w-full flex-1 min-h-0 flex flex-col text-center items-center justify-center pt-4 px-4 border-2 border-border bg-neutral-100 dark:bg-neutral-900 rounded-md overflow-hidden">
-            <div className="mb-2 flex-shrink-0">
-              <p className="text-sm text-muted-foreground">Grade Calculator (coming soon)</p>
-            </div>
-          </div>
-        </div>
-
-        {/* BOTTOM RIGHT — Policies */}
-        <div className="min-w-0 min-h-0 flex flex-col lg:row-span-1">
-          <PolicyCard
-            dropPolicyNotes={course.drop_policy_notes}
-            extensionPolicyNotes={course.extension_policy_notes}
-          />
-        </div>
-
-        
-
+  {/* Grade Calculator */}
+  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+    <div className="w-full flex-1 min-h-0 flex flex-col text-center items-center justify-center pt-4 px-4 border-2 border-border bg-neutral-100 dark:bg-neutral-900 rounded-md overflow-hidden">
+      <div className="mb-2 flex-shrink-0">
+        <p className="text-sm text-muted-foreground">
+          Grade Calculator (coming soon)
+        </p>
       </div>
+    </div>
+  </div>
+
+  {/* Policies */}
+  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+    <PolicyCard
+      dropPolicyNotes={course.drop_policy_notes}
+      extensionPolicyNotes={course.extension_policy_notes}
+    />
+  </div>
+
+</div>
     </div>
   );
 }
