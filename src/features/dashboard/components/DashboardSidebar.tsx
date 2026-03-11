@@ -42,14 +42,20 @@ const REPORT_URL =
 const FEEDBACK_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdYlEqWw5wbMnqG9637jAtqtJPoDH-IkLoTFO-mTUKUVZmJjA/viewform?usp=publish-editor";
 
-export default function DashboardSidebar({ courses }: { courses: SidebarCourse[] }) {
+export default function DashboardSidebar({
+  courses,
+  showUpgradeButton = true,
+}: {
+  courses: SidebarCourse[];
+  showUpgradeButton?: boolean;
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [comingSoonOpen, setComingSoonOpen] = useState(false);
   const pathname = usePathname();
 
   const sidebarContent = (
     //increase text size of headings and links in the sidebar
-    <div className="flex flex-col bg-card rounded-md border-2 border-border h-full xl:h-auto w-full xl:ml-4 xl:my-4">
+    <div className="flex flex-col bg-card rounded-md border-2 border-border h-full xl:h-auto w-full xl:ml-2 xl:my-2">
       {/* Header */}
       <div className="px-4 py-3 border-b-2 border-border">
         <Link
@@ -212,7 +218,6 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
             >
               <span>Gradescope</span>
             </button>
-
             <button
               type="button"
               onClick={() => {
@@ -221,7 +226,7 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
               }}
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
-              <span>Ed</span>
+              <span>Brightspace</span>
             </button>
           </div>
         </div>
@@ -281,21 +286,24 @@ export default function DashboardSidebar({ courses }: { courses: SidebarCourse[]
       </ScrollArea>
       {/* Bottom Profile */}
       <div className="flex flex-col gap-2 px-5 py-4">
+        
         <SignedIn>
-          <CheckoutButton
-            planId="cplan_3A0uQKXN5ZI5Do2dUfSnmEtnULK"
-            planPeriod="annual"
-            newSubscriptionRedirectUrl="/dashboard"
-          >
-            <button
-              type="button"
-              onClick={() => setMobileOpen(false)}
-              className="group flex items-center justify-between text-md w-full px-3 py-2 rounded-md bg-violet-100 text-violet-800 hover:bg-violet-200 dark:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/30 transition-colors"
+          {showUpgradeButton && (
+            <CheckoutButton
+              planId="cplan_3A0uQKXN5ZI5Do2dUfSnmEtnULK"
+              planPeriod="annual"
+              newSubscriptionRedirectUrl="/dashboard"
             >
-              <span>Upgrade</span>
-              <Sparkles size={16} className="transition-transform group-hover:rotate-12" />
-            </button>
-          </CheckoutButton>
+              <button
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                className="group flex items-center justify-between text-md w-full px-3 py-2 rounded-md bg-violet-100 text-violet-800 hover:bg-violet-200 dark:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/30 transition-colors"
+              >
+                <span>Upgrade</span>
+                <Sparkles size={16} className="transition-transform group-hover:rotate-12" />
+              </button>
+            </CheckoutButton>
+          )}
         </SignedIn>
         <SignOutButton>
           <Button className="text-md w-full px-3 py-2 rounded-md bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-500/20 dark:text-rose-400 dark:hover:bg-rose-500/30 justify-between">

@@ -22,10 +22,10 @@ export default async function CourseDashboardPage(
   return (
     <div className="h-full flex flex-col gap-4 min-h-0 overflow-hidden">
       
-      <div className="grid grid-cols-1 2xl:grid-cols-2 2xl:grid-rows-3 gap-4 w-full h-full flex-1 min-h-0">
+      <div className="grid grid-cols-1 xl:grid-cols-2 xl:grid-rows-3 gap-2 w-full h-full flex-1 min-h-0">
 
   {/* LEFT — Assignments */}
-  <div className="2xl:row-span-3 min-w-0 min-h-0 flex flex-col">
+  <div className="xl:row-span-3 min-w-0 min-h-0 flex flex-col">
     <TableCourseAssignments
       assignments={assignments}
       courseId={courseId}
@@ -35,7 +35,7 @@ export default async function CourseDashboardPage(
   </div>
 
   {/* Categories */}
-  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+  <div className="min-w-0 min-h-0 flex flex-col xl:row-span-1">
     <TableCourseCategories
       categories={categories}
       courseId={courseId}
@@ -43,18 +43,17 @@ export default async function CourseDashboardPage(
   </div>
 
   {/* Grade Calculator */}
-  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+  <div className="min-w-0 min-h-0 flex flex-col hidden xl:row-span-1 xl:flex">
     <div className="w-full flex-1 min-h-0 flex flex-col text-center items-center justify-center pt-4 px-4 border-2 border-border bg-neutral-100 dark:bg-neutral-900 rounded-md overflow-hidden">
       <div className="mb-2 flex-shrink-0">
-        <p className="text-sm text-muted-foreground">
-          Grade Calculator (coming soon)
-        </p>
+        <h2 className="text-lg font-semibold">Grade Calculator</h2>
+        <p className="text-sm text-muted-foreground">Coming soon</p>
       </div>
     </div>
   </div>
 
   {/* Policies */}
-  <div className="min-w-0 min-h-0 flex flex-col 2xl:row-span-1">
+  <div className="min-w-0 min-h-0 flex flex-col xl:row-span-1">
     <PolicyCard
       dropPolicyNotes={course.drop_policy_notes}
       extensionPolicyNotes={course.extension_policy_notes}

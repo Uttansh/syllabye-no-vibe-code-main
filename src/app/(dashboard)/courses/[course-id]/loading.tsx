@@ -1,9 +1,11 @@
+"use client";
+
 import { Loader2 } from "lucide-react";
 
 export default function DashboardLoading() {
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-row items-center justify-center gap-4 bg-neutral-50 dark:bg-neutral-800"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-neutral-50 dark:bg-neutral-900"
       aria-live="polite"
       aria-busy="true"
     >
@@ -13,6 +15,9 @@ export default function DashboardLoading() {
           Retrieving your course...
         </p>
       </div>
+      <p className="text-sm text-muted-foreground">
+        Looks like you have a lot of assignments to manage!
+      </p>
     </div>
   );
 }

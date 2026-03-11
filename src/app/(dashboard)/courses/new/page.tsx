@@ -16,25 +16,23 @@ export default async function NewCoursePage() {
     const canAddCourse = await getCourseAddPermissions();
     return (
     canAddCourse ? (
-    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-2xl w-full">
+    <div className="min-h-svh flex flex-col justify-center items-center p-6 mx-auto max-w-3xl w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Create a New Course</h1>
       <Card className="w-full">
         <CardContent>
-          
-          <form action={analyzeSyllabusAction} className="space-y-4">
+          <form action={analyzeSyllabusAction} className="space-y-4 w-full">
             <TimezoneInput />
             <SyllabusTextarea />
             <div className="flex justify-between gap-4">
-            <CreateCourseButton />
+            <CreateCourseButton/>
             <Link href="/dashboard" className="flex-1">
-              <Button type="button" className="bg-red-100 text-md text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30 w-full">
+              <Button type="button" className="flex-1 bg-red-100 text-md text-red-800 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-500/30 w-full">
                 Cancel
               </Button>
             </Link>
             </div>
           </form>
-         
         </CardContent>
       </Card>
       <p className="text-xs text-muted-foreground mt-2">

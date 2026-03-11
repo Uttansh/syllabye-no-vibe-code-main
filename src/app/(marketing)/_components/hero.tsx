@@ -82,11 +82,11 @@ export function Hero() {
           all without switching between platforms.
         </p>
       </div> */}
-      <AnimatedWrapper delay={0.4}>
+      {/* <AnimatedWrapper delay={0.4}>
       <div className="mt-14 w-full hidden md:block">
         <HeroAssignmentsDemo />
       </div>
-      </AnimatedWrapper>
+      </AnimatedWrapper> */}
     </section>
   );
 }

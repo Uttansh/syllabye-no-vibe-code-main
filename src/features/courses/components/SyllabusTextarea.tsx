@@ -20,10 +20,11 @@ export function SyllabusTextarea({ className }: { className?: string }) {
         rows={20}
         maxLength={SYLLABUS_MAX_LENGTH}
         placeholder={placeholder}
-        className={cn(
-          "w-full rounded-lg bg-neutral-50 dark:bg-neutral-900 p-4 pb-14 border border-neutral-200 dark:border-neutral-800 max-w-2xl h-120 resize-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none",
-          className
-        )}
+        // In src/features/courses/components/SyllabusTextarea.tsx, line 23-24:
+className={cn(
+  "field-sizing-fixed w-xl rounded-lg bg-neutral-50 dark:bg-neutral-900 p-4 pb-14 border border-neutral-200 dark:border-neutral-800 h-120 resize-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none",
+  className
+)}
         onChange={(e) => setLength(e.target.value.length)}
       />
       <div

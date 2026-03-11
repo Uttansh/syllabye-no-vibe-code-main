@@ -59,7 +59,7 @@ export default function SevenDayCalendarView({
                           ? `${assignment.name} (${[assignment.courseNumber, assignment.courseName].filter(Boolean).join(" ")})`
                           : assignment.name
                       }
-                      className={`block text-sm px-2 py-1.5 rounded-sm transition-opacity hover:opacity-90 shrink-0 ${
+                      className={`block text-sm px-2 py-1.5 rounded-sm transition-[background-color,color] duration-500 ease-in-out hover:opacity-90 shrink-0 ${
                         assignment.completed
                           ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400"
                           : "bg-rose-100 dark:bg-rose-500/20 text-rose-800 dark:text-rose-400"
@@ -69,7 +69,7 @@ export default function SevenDayCalendarView({
                       <span className="block truncate text-md" title={assignment.name}>
                         {assignment.name}
                       </span>
-                      { assignment.completed && <CheckCircle className="size-3 text-emerald-600 mt-1" />}
+                      {assignment.completed && <CheckCircle className="size-3 text-emerald-600 mt-1" />}
                       </div>
                       <div className="flex flex-row justify-between">
                       {assignment.due_date && (
