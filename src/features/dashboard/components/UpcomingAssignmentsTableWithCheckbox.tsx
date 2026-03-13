@@ -29,18 +29,14 @@ export default function UpcomingAssignmentsTableWithCheckbox({
     <div className="flex flex-col h-full min-h-0">
       <Card className="w-full p-0 m-0 flex-1 min-h-0 overflow-hidden border-none rounded-md">
         <CardContent className="px-0 py-0 m-0 h-full">
+          <div className="flex-shrink-0 flex items-center justify-between px-6 py-3 border-b-2">
+            <h3 className="text-2xl font-semibold">
+              Next 10 Assignments
+            </h3>
+          </div>
           <ScrollArea className="h-full w-full">
             <div className="min-w-full">
-              <Table>
-                <TableHeader className="px-4 sticky top-0 bg-card z-10">
-                  <TableRow className="h-14">
-                    <TableHead className="px-6 w-12"></TableHead>
-                    <TableHead className="px-6 min-w-0">Due Soon</TableHead>
-                    <TableHead className="px-6 whitespace-nowrap">Course #</TableHead>
-                    <TableHead className="px-6 whitespace-nowrap hidden md:table-cell">Due Date</TableHead>
-                    <TableHead className="px-6 whitespace-nowrap hidden md:table-cell">Time</TableHead>
-                  </TableRow>
-                </TableHeader>
+              <Table>              
                 <TableBody>
                   {assignments.length === 0 ? (
                     <TableRow className="h-14">

@@ -1,9 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SignedIn } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
-import { ArrowRight } from "lucide-react";
-export function Navbar() {
+import { X } from "lucide-react";
+
+export function Navbar({
+  bannerDismissed = false,
+  onBannerDismiss,
+}: {
+  bannerDismissed?: boolean;
+  onBannerDismiss?: () => void;
+}) {
   const navLinks = [
     { href: "/#workflow", label: "Workflow" },
     { href: "/#comparison", label: "Why Us?" },
@@ -13,6 +22,19 @@ export function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 w-full bg-neutral-50 dark:bg-neutral-900 z-99 border-b border-neutral-200 dark:border-neutral-800">
+      {!bannerDismissed && (
+        <div className="flex items-center justify-center gap-2 text-lg text-center text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 relative">
+          <span>Now with <span className="font-semibold">Canvas</span> sync!</span>
+          <button
+            type="button"
+            onClick={() => onBannerDismiss?.()}
+            className="absolute right-2 p-1 rounded hover:bg-emerald-100/50 dark:hover:bg-emerald-500/20 transition-colors"
+            aria-label="Dismiss"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
+      )}
       <nav className="w-full max-w-5xl py-3 mx-auto px-4 lg:px-8 border-l border-r border-border">
         <div className="flex justify-between items-center px-4 lg:px-0">
           {/* Logo */}

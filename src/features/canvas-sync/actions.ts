@@ -160,6 +160,26 @@ export async function getCanvasSyncConfig(): Promise<{
 }
 
 /**
+ * Remove Canvas sync: delete user's Canvas config and all Canvas assignments.
+ */
+export async function desyncCanvas(): Promise<{ error?: string }> {
+  const { userId } = await auth();
+  if (!userId) return { error: "Not authenticated" };
+
+  const supabase = await createClerkSupabaseClient();
+
+  await supabase.from("canvas_import_pending").delete().eq("user_id", userId);
+  const { error } = await supabase
+    .from("user_canvas_sync")
+    .delete()
+    .eq("user_id", userId);
+
+  if (error) return { error: error.message };
+  revalidatePath("/dashboard");
+  return {};
+}
+
+/**
  * Check if we should run a background sync (has URL, not synced in last 5 min).
  */
 export async function shouldSyncOnLoad(): Promise<boolean> {

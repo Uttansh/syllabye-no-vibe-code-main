@@ -4,7 +4,7 @@ import AnimatedWrapper from "@/components/animated-wrapper";
 
 export default function WorkflowSection() {
   return (
-    <section className="py-24 scroll-mt-20" id="workflow">
+    <section className="py-24" id="workflow">
       <AnimatedWrapper delay={0.1}> <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl">
         Track every assignment in one place
       </h2>

@@ -210,6 +210,8 @@ export default function DashboardSidebar({
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
               <span>Canvas</span>
+
+
             </button>
 
             <button
@@ -220,7 +222,7 @@ export default function DashboardSidebar({
               }}
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
-              <span>Gradescope</span>
+              <span className="text-neutral-800 dark:text-neutral-600">Gradescope</span>
             </button>
             <button
               type="button"
@@ -230,7 +232,7 @@ export default function DashboardSidebar({
               }}
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
             >
-              <span>Brightspace</span>
+              <span className="text-neutral-800 dark:text-neutral-600">Brightspace</span>
             </button>
           </div>
         </div>
