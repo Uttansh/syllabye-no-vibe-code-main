@@ -1,11 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CircleChevronRight, Target, BarChart3, Clock } from "lucide-react";
 import AnimatedWrapper from "@/components/animated-wrapper";
 import { SignedIn } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
-import HeroAssignmentsDemo from "./herodemo";
+import AnimatedLogoCloud from "./logoCloud";
 export function Hero() {
   return (
     <section className="py-24" id="hero">
@@ -50,8 +49,9 @@ export function Hero() {
       </Button>
       </SignedIn>
       </AnimatedWrapper>
+      <AnimatedLogoCloud className="mt-15"/>
       </div>
-
+    
       {/* <div className="relative w-full mt-30 flex justify-center shadow-[0_0.5_250px_rgba(255,255,255,0.10)]"> */}
         {/* Light mode image */}
         {/* <Image

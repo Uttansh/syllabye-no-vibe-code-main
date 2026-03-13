@@ -13,7 +13,7 @@ export function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 w-full bg-neutral-50 dark:bg-neutral-900 z-99 border-b border-neutral-200 dark:border-neutral-800">
-      <nav className="w-full max-w-4xl py-3 mx-auto">
+      <nav className="w-full max-w-5xl py-3 mx-auto px-4 lg:px-8 border-l border-r border-border">
         <div className="flex justify-between items-center px-4 lg:px-0">
           {/* Logo */}
           <h1 className="text-2xl font-bold">Syllabye 👋</h1>

@@ -77,3 +77,47 @@ export function DueTimeCell({ date }: { date: string | null }) {
     </>
   );
 }
+
+/**
+ * Renders a time or time interval in the user's local timezone.
+ * If both start and end are provided and on the same day, shows "2:00 PM - 3:00 PM".
+ * Otherwise shows just the end time (or start if no end).
+ */
+export function DueTimeIntervalCell({
+  startDate,
+  endDate,
+}: {
+  startDate: string | null;
+  endDate: string | null;
+}) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const date = endDate ?? startDate;
+  if (!date) return <span className="text-muted-foreground">N/A</span>;
+
+  if (!mounted) {
+    return <span className="inline-block w-24 h-4 animate-pulse bg-muted rounded" />;
+  }
+
+  const start = startDate ? new Date(startDate) : null;
+  const end = endDate ? new Date(endDate) : null;
+
+  const formatTime = (d: Date) =>
+    d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+
+  if (start && end && start.getTime() !== end.getTime()) {
+    const sameDay =
+      start.getDate() === end.getDate() &&
+      start.getMonth() === end.getMonth() &&
+      start.getFullYear() === end.getFullYear();
+    if (sameDay) {
+      return <>{formatTime(start)} – {formatTime(end)}</>;
+    }
+  }
+
+  return <>{formatTime(end ?? start!)}</>;
+}

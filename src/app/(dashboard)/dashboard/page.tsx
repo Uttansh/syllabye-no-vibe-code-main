@@ -2,17 +2,29 @@ import Stats from "../../../features/dashboard/components/stats";
 import SevenDayCalendarWrapper from "../../../features/dashboard/components/SevenDayCalendarWrapper";
 import DashboardProgressChart from "../../../features/dashboard/components/dashboardProgressChart";
 import UpcomingAssignmentsTableWithCheckbox from "../../../features/dashboard/components/UpcomingAssignmentsTableWithCheckbox";
-import { getDashboardData, getUpcomingAssignments } from "../../../features/dashboard/queries";
+import SemesterAnalytics from "../../../features/dashboard/components/SemesterAnalytics";
+import {
+  getDashboardData,
+  getUpcomingAssignments,
+  getCanvasCalendarEvents,
+} from "../../../features/dashboard/queries";
+import { getCanvasSyncConfig } from "../../../features/canvas-sync/actions";
 import Link from "next/link";
 
 export default async function DashboardPage() {
   const [
     { stats, progressData, calendarAssignments },
     upcomingAssignments,
+    canvasConfig,
+    canvasEvents,
   ] = await Promise.all([
     getDashboardData(),
     getUpcomingAssignments(),
+    getCanvasSyncConfig(),
+    getCanvasCalendarEvents(),
   ]);
+
+  const hasCanvasUrl = !!canvasConfig?.canvasIcsUrl;
 
   return (
     <div className="h-full flex flex-col min-h-0 overflow-hidden">
@@ -25,7 +37,11 @@ export default async function DashboardPage() {
       <div className="grid grid-rows-2 grid-cols-4 gap-2 w-full lg:h-full flex-1 min-h-0">
         {/* Row 1 — Full Width Calendar */}
         <div className="w-full min-w-0 col-span-4">
-          <SevenDayCalendarWrapper assignments={calendarAssignments} />
+          <SevenDayCalendarWrapper
+            syllabusAssignments={calendarAssignments}
+            canvasAssignments={canvasEvents ?? []}
+            hasCanvasUrl={hasCanvasUrl}
+          />
         </div>
 
         {/* Row 2 — Upcoming Assignments + Completion (stack below xl/1280px) */}
@@ -34,10 +50,7 @@ export default async function DashboardPage() {
         </div>
         <div className="min-w-0 min-h-0 h-70 xl:h-auto border-2 border-border col-span-4 xl:col-span-2 flex flex-col items-center justify-center rounded-md bg-neutral-100 dark:bg-neutral-900">
           {/* <DashboardProgressChart data={progressData} /> */}
-          <h2 className="text-lg font-semibold">Semester Analytics</h2>
-          <p className="text-sm text-muted-foreground">Coming soon</p>
-          <h2 className="mt-10 text-lg font-semibold">Syllabus File Imports</h2>
-          <p className="text-sm text-muted-foreground">Coming soon</p>
+          <SemesterAnalytics data={stats}/>
         </div>
       </div>
     </div>

@@ -110,6 +110,64 @@ export async function getDashboardData() {
     };
 }
 
+export type CanvasCalendarEvent = {
+    id: string;
+    name: string;
+    due_date: string | null;
+    start_date: string | null;
+    hasTime: boolean;
+    completed: false;
+    courseName: string | null;
+    courseNumber: string | null;
+    externalUrl: string | null;
+};
+
+export async function getCanvasCalendarEvents(): Promise<CanvasCalendarEvent[] | null> {
+    const { userId } = await auth();
+    if (!userId) return null;
+
+    const supabase = await createClerkSupabaseClient();
+
+    const now = new Date();
+    const calendarWindowStart = new Date(now.getTime() - 48 * 60 * 60 * 1000);
+    const calendarWindowEnd = addDays(now, 10);
+
+    const { data, error } = await supabase
+        .from("canvas_import_pending")
+        .select("canvas_uid, name, due_date, canvas_course_name, canvas_url, raw_event")
+        .eq("user_id", userId);
+
+    if (error) return null;
+
+    return (data ?? [])
+        .filter((row: { due_date: string | null }) => {
+            if (!row.due_date) return false;
+            const due = new Date(row.due_date);
+            return due >= calendarWindowStart && due <= calendarWindowEnd;
+        })
+        .map((row: {
+            canvas_uid: string;
+            name: string;
+            due_date: string | null;
+            canvas_course_name: string | null;
+            canvas_url: string | null;
+            raw_event?: { start_date?: string | null; canvas_course_number?: string | null; has_time?: boolean } | null;
+        }) => {
+            const raw = row.raw_event ?? {};
+            return {
+                id: row.canvas_uid,
+                name: row.name,
+                due_date: row.due_date,
+                start_date: raw.start_date ?? null,
+                hasTime: raw.has_time ?? true,
+                completed: false as const,
+                courseName: row.canvas_course_name,
+                courseNumber: raw.canvas_course_number ?? null,
+                externalUrl: row.canvas_url,
+            };
+        });
+}
+
 export async function getDashboardStats() {
     const { userId } = await auth();
     if (!userId) throw new Error("User not found");

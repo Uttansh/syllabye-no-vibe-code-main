@@ -28,6 +28,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { CanvasSyncDialog } from "@/features/canvas-sync/components/CanvasSyncDialog";
 
 export interface SidebarCourse {
   id: string;
@@ -45,12 +46,15 @@ const FEEDBACK_URL =
 export default function DashboardSidebar({
   courses,
   showUpgradeButton = true,
+  canvasIcsUrl = null,
 }: {
   courses: SidebarCourse[];
   showUpgradeButton?: boolean;
+  canvasIcsUrl?: string | null;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [comingSoonOpen, setComingSoonOpen] = useState(false);
+  const [canvasDialogOpen, setCanvasDialogOpen] = useState(false);
   const pathname = usePathname();
 
   const sidebarContent = (
@@ -200,7 +204,7 @@ export default function DashboardSidebar({
             <button
               type="button"
               onClick={() => {
-                setComingSoonOpen(true);
+                setCanvasDialogOpen(true);
                 setMobileOpen(false);
               }}
               className="flex items-center justify-between rounded-md py-1 px-2 text-md hover:bg-neutral-100 dark:hover:bg-neutral-500/20 transition cursor-pointer w-full text-left"
@@ -336,6 +340,11 @@ export default function DashboardSidebar({
 
   return (
     <>
+      <CanvasSyncDialog
+        open={canvasDialogOpen}
+        onOpenChange={setCanvasDialogOpen}
+        initialUrl={canvasIcsUrl}
+      />
       <Dialog open={comingSoonOpen} onOpenChange={setComingSoonOpen}>
         <DialogContent>
           <DialogHeader>
@@ -372,7 +381,6 @@ export default function DashboardSidebar({
     >
       <Menu size={22} />
     </Button>
-    <h1 className="text-2xl font-semibold ml-2">Syllabye 👋</h1>
   </div>
 
 
